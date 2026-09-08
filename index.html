@@ -10,14 +10,14 @@
 <meta property="og:description" content="People come first. Community creates connection. Connection creates opportunity.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mdctoken.org">
-<link rel="icon" type="image/jpeg" href="mdc-logo.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090909'/%3E%3Ccircle cx='32' cy='32' r='22' fill='none' stroke='%23f2c94c' stroke-width='3'/%3E%3Ctext x='32' y='38' text-anchor='middle' font-family='Arial' font-size='18' font-weight='700' fill='%23f2c94c'%3EMDC%3C/text%3E%3C/svg%3E">
 <style>
 :root{--gold:#f2c94c;--gold-soft:#d6b24b;--bg:#090909;--card:#151515;--line:#282828;--text:#f4f4f4;--muted:#b9b9b9}
 *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
 body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
 a{color:inherit}nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:18px 7%;background:rgba(9,9,9,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:24px;color:var(--gold)}
-.logo-img{width:42px;height:42px;border-radius:50%;object-fit:cover;display:block;border:1px solid #5f5126}
+.logo-mark{width:38px;height:38px;border:2px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;letter-spacing:.5px}
 .copy-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
 .copy-btn{border:0;background:var(--gold);color:#111;padding:10px 14px;border-radius:8px;font-weight:800;cursor:pointer}
 .copy-status{font-size:13px;color:#9d9d9d}
@@ -42,11 +42,11 @@ h2{color:var(--gold);font-size:clamp(32px,5vw,46px);margin:8px 0 22px}.card{back
 .timeline{display:grid;gap:16px}.phase{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:22px}.phase p{color:var(--muted)}
 .socials{display:flex;gap:12px;flex-wrap:wrap}.socials a{text-decoration:none;border:1px solid #3c3c3c;background:#121212;padding:12px 16px;border-radius:9px}
 .note{color:#8d8d8d;font-size:13px;margin-top:14px}footer{padding:42px 20px;text-align:center;border-top:1px solid var(--line);color:#777}
-@media(max-width:760px){.navlinks{display:none}nav{padding:16px 6%}section{padding:56px 18px}.card{padding:24px}}
+.tokenomics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.tokenomics-item{background:#121212;border:1px solid var(--line);border-radius:12px;padding:20px}.tokenomics-item h3{margin:0 0 6px;color:var(--gold)}.tokenomics-item .amount{font-size:20px;font-weight:700}.tokenomics-item .pct{color:var(--muted);font-size:13px}.proof{display:grid;gap:10px;margin-top:16px}.proof-row{background:#0b0b0b;border:1px solid var(--line);border-radius:9px;padding:13px;word-break:break-all}@media(max-width:760px){.navlinks{display:none}nav{padding:16px 6%}section{padding:56px 18px}.card{padding:24px}}
 </style>
 </head>
 <body>
-<nav><div class="brand"><img class="logo-img" src="mdc-logo.jpg" alt="MDC Logo"><span>MDC</span></div><div class="navlinks"><a href="#about">About</a><a href="#token">Token</a><a href="#vision">Vision</a><a href="#roadmap">Roadmap</a><a href="#community">Community</a></div></nav>
+<nav><div class="brand"><span class="logo-mark">MDC</span><span>MDC</span></div><div class="navlinks"><a href="#about">About</a><a href="#token">Token</a><a href="#tokenomics">Tokenomics</a><a href="#liquidity">Liquidity</a><a href="#vision">Vision</a><a href="#roadmap">Roadmap</a><a href="#community">Community</a></div></nav>
 
 <header class="hero"><div class="hero-inner">
 <div class="badge">Built on Ethereum</div><h1>MDC</h1><h3>Myanmar Community Token</h3>
@@ -84,7 +84,15 @@ h2{color:var(--gold);font-size:clamp(32px,5vw,46px);margin:8px 0 22px}.card{back
 <p class="note">Always verify the contract address before interacting with MDC.</p></div></section>
 
 
-<section id="security"><div class="kicker">Security</div><h2>Verify Before You Trust</h2>
+<section id="tokenomics"><div class="kicker">Tokenomics</div><h2>Fixed Supply. Transparent Allocation.</h2><div class="card"><p>MDC has a fixed total supply of <strong>54,000,000 MDC</strong>.</p><p class="note">Unlock or release eligibility does not require a sale or transfer. Scheduled amounts are maximum eligible amounts unless otherwise stated.</p></div><div class="tokenomics-grid" style="margin-top:16px">
+<div class="tokenomics-item"><h3>Founder</h3><div class="amount">5,000,000 MDC</div><div class="pct">9.26%</div><p>First 2 years locked. Afterward, up to 50,000 MDC/month may become eligible, up to 4,000,000 MDC total. The remaining 1,000,000 MDC is intended to remain permanently locked.</p></div>
+<div class="tokenomics-item"><h3>Liquidity Reserve</h3><div class="amount">13,500,000 MDC</div><div class="pct">25.00%</div><p>Maximum tranches: 5,000,000 initially; up to 5,000,000 after 6 months; up to 3,500,000 after another 6 months.</p></div>
+<div class="tokenomics-item"><h3>Security / Bug Bounty</h3><div class="amount">5,000,000 MDC</div><div class="pct">9.26%</div><p>Up to 10,000 MDC/month for validated security work; zero if there is no qualifying need.</p></div>
+<div class="tokenomics-item"><h3>Community Promotion</h3><div class="amount">1,000,000 MDC</div><div class="pct">1.85%</div><p>Up to 1,000 MDC/month for community promotion and participation initiatives.</p></div>
+<div class="tokenomics-item"><h3>Development</h3><div class="amount">5,000,000 MDC</div><div class="pct">9.26%</div><p>Up to 10,000 MDC/month for documented development, infrastructure, maintenance and audit needs.</p></div>
+<div class="tokenomics-item"><h3>Team &amp; Contributors</h3><div class="amount">5,000,000 MDC</div><div class="pct">9.26%</div><p>Contribution-based; no automatic individual entitlement.</p></div>
+<div class="tokenomics-item"><h3>Community / Ecosystem Reserve</h3><div class="amount">19,500,000 MDC</div><div class="pct">36.11%</div><p>First 3 years locked. Thereafter, maximum eligible tranches every 4 years, beginning at 25% of this reserve and halving each cycle.</p></div></div></section>
+<section id="liquidity"><div class="kicker">Liquidity Transparency</div><h2>Initial MDC / ETH Liquidity Locked On-Chain</h2><div class="card"><p>The first official MDC / ETH liquidity position was created on Uniswap V4 and locked through UNCX. The liquidity remains active in the Uniswap pool while the position principal cannot be withdrawn before the unlock date.</p><div class="grid" style="margin-top:16px"><div class="stat"><div class="label">Position</div><div class="value">NFT #396442</div></div><div class="stat"><div class="label">UNCX Lock</div><div class="value">#106</div></div><div class="stat"><div class="label">Initial MDC</div><div class="value">~5,000,000</div></div><div class="stat"><div class="label">Initial ETH</div><div class="value">~0.1122</div></div><div class="stat"><div class="label">Fee Tier</div><div class="value">0.25%</div></div><div class="stat"><div class="label">Unlock</div><div class="value">Sep 8, 2028 17:30 UTC</div></div></div><div class="proof"><div class="proof-row"><strong>Pool ID</strong><br>0x0951b427016a3fc5c7c8ca7217af4ac5b86b76ef2c5cdd20f1caaf6de22b3ff3</div><div class="proof-row"><strong>Lock Transaction</strong><br>0xe0d22ea9d019a49c736ee4b5bc0457a937df691cc1eb847b8fea6a60de3e0aa8</div><div class="proof-row"><strong>UNCX V4 Locker</strong><br>0x147AECa171a79466Fe9E2c03f21b45155Ff403F8</div></div><div class="hero-actions" style="margin-top:18px"><a class="btn btn-secondary" href="https://app.uniswap.org/explore/pools/ethereum/0x0951b427016a3fc5c7c8ca7217af4ac5b86b76ef2c5cdd20f1caaf6de22b3ff3" target="_blank" rel="noopener">View Uniswap Pool</a><a class="btn btn-secondary" href="https://etherscan.io/tx/0xe0d22ea9d019a49c736ee4b5bc0457a937df691cc1eb847b8fea6a60de3e0aa8" target="_blank" rel="noopener">Verify Lock Transaction</a></div><p class="note">Liquidity locking limits withdrawal of the locked position until the stated unlock time. It does not eliminate smart-contract, protocol, market, or other digital-asset risks.</p></div></section><section id="security"><div class="kicker">Security</div><h2>Verify Before You Trust</h2>
 <div class="security-box">
 <h3>Official MDC Information</h3>
 <p><strong>Official Website:</strong> mdctoken.org</p>
@@ -108,7 +116,7 @@ h2{color:var(--gold);font-size:clamp(32px,5vw,46px);margin:8px 0 22px}.card{back
 </div></section>
 
 <section id="roadmap"><div class="kicker">Roadmap</div><h2>The Journey Ahead</h2><div class="timeline">
-<div class="phase"><span class="status done">Completed</span><h3>Phase 1 — Foundation</h3><p>Ethereum deployment, contract verification, official website, and community foundation.</p></div>
+<div class="phase"><span class="status done">Completed</span><h3>Phase 1 — Foundation</h3><p>Ethereum deployment, contract verification, official website, first Uniswap V4 liquidity position, and initial on-chain liquidity lock.</p></div>
 <div class="phase"><span class="status progress">In Progress</span><h3>Phase 2 — Community Growth</h3><p>Expand awareness, strengthen official channels, and grow participation around the MDC community.</p></div>
 <div class="phase"><span class="status future">Planned</span><h3>Phase 3 — Ecosystem Development</h3><p>Explore useful tools, accessibility improvements, and practical community-focused use cases.</p></div>
 <div class="phase"><span class="status future">Planned</span><h3>Phase 4 — MDC App</h3><p>Explore application development focused on making sending, receiving, and managing MDC easier.</p></div>
