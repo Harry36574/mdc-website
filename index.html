@@ -43,6 +43,70 @@ h2{color:var(--gold);font-size:clamp(32px,5vw,46px);margin:8px 0 22px}.card{back
 .socials{display:flex;gap:12px;flex-wrap:wrap}.socials a{text-decoration:none;border:1px solid #3c3c3c;background:#121212;padding:12px 16px;border-radius:9px}
 .note{color:#8d8d8d;font-size:13px;margin-top:14px}footer{padding:42px 20px;text-align:center;border-top:1px solid var(--line);color:#777}
 .tokenomics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.tokenomics-item{background:#121212;border:1px solid var(--line);border-radius:12px;padding:20px}.tokenomics-item h3{margin:0 0 6px;color:var(--gold)}.tokenomics-item .amount{font-size:20px;font-weight:700}.tokenomics-item .pct{color:var(--muted);font-size:13px}.proof{display:grid;gap:10px;margin-top:16px}.proof-row{background:#0b0b0b;border:1px solid var(--line);border-radius:9px;padding:13px;word-break:break-all}@media(max-width:760px){.navlinks{display:none}nav{padding:16px 6%}section{padding:56px 18px}.card{padding:24px}}
+/* Approved existing-layout fixes: wrap navigation and the public contract address. */
+.navlinks{flex-wrap:wrap;justify-content:flex-end;row-gap:8px}
+#security .security-box p{overflow-wrap:anywhere}
+/* Tokenomics production alignment — styles apply only to this section. */
+#tokenomics{scroll-margin-top:84px}
+#tokenomics .tk-overview{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:30px;border:1px solid #5a4b1d;border-radius:16px;background:linear-gradient(125deg,#1c180e,#111)}
+#tokenomics .tk-label{color:var(--gold-soft);font-size:12px;letter-spacing:1.2px;text-transform:uppercase}
+#tokenomics .tk-supply{font-size:clamp(30px,5vw,46px);font-weight:800;line-height:1.25;margin:6px 0 8px;letter-spacing:-1px}
+#tokenomics .tk-supply span{font-size:18px;color:var(--gold);letter-spacing:0}
+#tokenomics .tk-overview p:last-child{font-size:14px;color:var(--muted)}
+#tokenomics .tk-overview a{font-size:13px;color:var(--gold);text-underline-offset:4px}
+#tokenomics .tk-principle{padding:28px 0;border-bottom:1px solid var(--line)}
+#tokenomics .tk-principle h3{font-size:clamp(18px,3vw,25px);line-height:1.5;color:var(--gold);margin-bottom:12px}
+#tokenomics .tk-principle p,#tokenomics .tk-copy{font-size:14px;color:var(--muted)}
+#tokenomics .tk-timing{padding:26px 0 30px}
+#tokenomics h3{font-size:21px;line-height:1.4}
+#tokenomics h4{font-size:16px;line-height:1.5;color:var(--text)}
+#tokenomics .tk-periods{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:16px 0}
+#tokenomics .tk-periods div{background:#131313;border:1px solid var(--line);border-radius:8px;padding:12px}
+#tokenomics .tk-periods dt{font-size:12px;color:var(--muted)}
+#tokenomics .tk-periods dd{font-size:15px;font-weight:700;color:var(--gold)}
+#tokenomics .tk-genesis{font-size:13px;line-height:1.9;padding:16px;border-left:2px solid var(--gold-soft);background:#101010;margin:14px 0}
+#tokenomics code{font-family:Consolas,monospace;font-size:.92em;overflow-wrap:anywhere}
+#tokenomics .tk-heading{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:6px 0 16px}
+#tokenomics .tk-heading p{color:var(--muted);font-size:12px}
+#tokenomics .tk-allocations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+#tokenomics .tk-allocation{min-width:0;background:#121212;border:1px solid var(--line);border-radius:14px;padding:24px}
+#tokenomics .tk-allocation h3{color:var(--gold);font-size:19px}
+#tokenomics .tk-amount-row{display:flex;gap:10px;flex-wrap:wrap;align-items:baseline;margin:7px 0 18px}
+#tokenomics .tk-amount{font-size:24px;line-height:1.35;font-weight:700}
+#tokenomics .tk-pct{color:var(--muted);font-size:13px}
+#tokenomics .tk-allocation p{font-size:14px;color:var(--muted);margin:10px 0}
+#tokenomics .tk-allocation strong,#tokenomics .tk-copy strong{color:var(--text)}
+#tokenomics .tk-instance{color:var(--gold-soft);font-size:11px;letter-spacing:1px;display:block;margin-bottom:5px}
+#tokenomics .tk-split+.tk-split{border-top:1px solid var(--line);padding-top:18px;margin-top:18px}
+#tokenomics .tk-terms{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+#tokenomics .tk-terms span{border:1px solid #494027;border-radius:5px;padding:3px 8px;color:var(--gold-soft);font-size:11px}
+#tokenomics .tk-detail{margin-top:18px;border-top:1px solid var(--line);font-size:13px}
+#tokenomics summary{cursor:pointer;min-height:44px;padding:12px 0;color:var(--gold-soft)}
+#tokenomics summary:focus-visible,#tokenomics a:focus-visible{outline:2px solid var(--gold);outline-offset:4px;border-radius:3px}
+#tokenomics .tk-detail dl{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin:0 0 10px}
+#tokenomics .tk-detail dt{color:var(--muted);font-size:12px}
+#tokenomics .tk-detail dd{overflow-wrap:anywhere;color:var(--text)}
+#tokenomics .tk-wide{grid-column:1/-1}
+#tokenomics .tk-schedule-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:20px}
+#tokenomics .tk-schedule{min-width:0;border-top:1px solid #4a4025;padding-top:20px}
+#tokenomics .tk-schedule table{width:100%;border-collapse:collapse;font-size:13px;margin-top:16px;font-variant-numeric:tabular-nums}
+#tokenomics caption{text-align:left;font-size:12px;color:var(--muted);padding-bottom:8px}
+#tokenomics th,#tokenomics td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+#tokenomics th{font-weight:400;color:var(--muted);font-size:12px}
+#tokenomics td:last-child,#tokenomics th:last-child{text-align:right}
+#tokenomics tfoot td{font-weight:700;color:var(--gold);border-bottom:0}
+#tokenomics .tk-terminal{border:1px solid #494027;border-radius:8px;padding:14px;margin-top:18px;font-size:13px;color:var(--gold)}
+#tokenomics .tk-terminal strong{display:block;font-size:18px}
+#tokenomics .tk-release{margin-top:26px;padding:24px;border:1px solid var(--line);border-radius:14px}
+#tokenomics .tk-release p{margin-top:10px}
+#tokenomics .tk-release ul{padding-left:20px;margin:12px 0;color:var(--muted);font-size:14px}
+#tokenomics .tk-release li{padding:3px 0}
+#tokenomics .tk-production{padding:28px 0 0}
+#tokenomics .tk-production p{margin:10px 0}
+#tokenomics .tk-links{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0}
+#tokenomics .tk-links a{border:1px solid #5a4b1d;border-radius:8px;padding:12px 16px;text-decoration:none;color:var(--gold);background:#141109;font-size:14px}
+@media(max-width:760px){#tokenomics .tk-overview{display:block;padding:22px}#tokenomics .tk-overview a{display:inline-block;margin-top:14px}#tokenomics .tk-periods{grid-template-columns:repeat(3,minmax(0,1fr))}#tokenomics .tk-allocations,#tokenomics .tk-schedule-grid{grid-template-columns:minmax(0,1fr)}#tokenomics .tk-allocation,#tokenomics .tk-release{padding:20px}#tokenomics .tk-heading{display:block}#tokenomics .tk-heading p{margin-top:5px}#tokenomics .tk-principle h3 span{white-space:nowrap}#tokenomics .tk-links a{flex:1 1 100%;text-align:center}}
+@media(max-width:380px){#tokenomics .tk-periods{grid-template-columns:repeat(2,minmax(0,1fr))}#tokenomics .tk-allocation{padding:16px}#tokenomics .tk-amount{font-size:22px}}
 </style>
 </head>
 <body>
@@ -84,14 +148,126 @@ h2{color:var(--gold);font-size:clamp(32px,5vw,46px);margin:8px 0 22px}.card{back
 <p class="note">Always verify the contract address before interacting with MDC.</p></div></section>
 
 
-<section id="tokenomics"><div class="kicker">Tokenomics</div><h2>Fixed Supply. Transparent Allocation.</h2><div class="card"><p>MDC has a fixed total supply of <strong>54,000,000 MDC</strong>.</p><p class="note">Unlock or release eligibility does not require a sale or transfer. Scheduled amounts are maximum eligible amounts unless otherwise stated.</p></div><div class="tokenomics-grid" style="margin-top:16px">
-<div class="tokenomics-item"><h3>Founder</h3><div class="amount">5,000,000 MDC</div><div class="pct">9.26%</div><p>First 2 years locked. Afterward, up to 50,000 MDC/month may become eligible, up to 4,000,000 MDC total. The remaining 1,000,000 MDC is intended to remain permanently locked.</p></div>
-<div class="tokenomics-item"><h3>Liquidity Reserve</h3><div class="amount">13,500,000 MDC</div><div class="pct">25.00%</div><p>Maximum tranches: 5,000,000 initially; up to 5,000,000 after 6 months; up to 3,500,000 after another 6 months.</p></div>
-<div class="tokenomics-item"><h3>Security / Bug Bounty</h3><div class="amount">5,000,000 MDC</div><div class="pct">9.26%</div><p>Up to 10,000 MDC/month for validated security work; zero if there is no qualifying need.</p></div>
-<div class="tokenomics-item"><h3>Community Promotion</h3><div class="amount">1,000,000 MDC</div><div class="pct">1.85%</div><p>Up to 1,000 MDC/month for community promotion and participation initiatives.</p></div>
-<div class="tokenomics-item"><h3>Development</h3><div class="amount">5,000,000 MDC</div><div class="pct">9.26%</div><p>Up to 10,000 MDC/month for documented development, infrastructure, maintenance and audit needs.</p></div>
-<div class="tokenomics-item"><h3>Team &amp; Contributors</h3><div class="amount">5,000,000 MDC</div><div class="pct">9.26%</div><p>Contribution-based; no automatic individual entitlement.</p></div>
-<div class="tokenomics-item"><h3>Community / Ecosystem Reserve</h3><div class="amount">19,500,000 MDC</div><div class="pct">36.11%</div><p>First 3 years locked. Thereafter, maximum eligible tranches every 4 years, beginning at 25% of this reserve and halving each cycle.</p></div></div></section>
+<section id="tokenomics" aria-labelledby="tokenomics-title">
+<div class="kicker">Tokenomics · v1.0</div><h2 id="tokenomics-title">Fixed Supply. Transparent Allocation.</h2>
+<div class="tk-overview">
+  <div><div class="tk-label">Fixed Supply</div><p class="tk-supply">54,000,000 <span>MDC</span></p><p>No post-deployment additional mint entry point.</p></div>
+  <a href="#tokenomics-production">9 production instances · Ethereum Mainnet ↗</a>
+</div>
+<div class="tk-principle">
+  <h3><span>Eligibility ≠ Distribution</span> <span>≠ Circulation ≠ Sale</span></h3>
+  <p>All scheduled amounts represent <strong>maximum release eligibility</strong>. Reaching an eligibility date does not automatically distribute tokens. Actual release may be zero, partial, or up to the currently available eligible amount. Unused eligibility can accumulate within the contract limits. No automatic distribution or mandatory catch-up occurs.</p>
+  <p class="note">Zero release means no release transaction. A successful <code>release(uint256 amount)</code> requires a positive amount. Treasury use remains subject to the allocation’s purpose and genuine project needs.</p>
+</div>
+<div class="tk-timing">
+  <h3>Fixed-duration timing</h3>
+  <dl class="tk-periods">
+    <div><dt>1 month</dt><dd>30 days</dd></div><div><dt>6 months</dt><dd>180 days</dd></div><div><dt>12 months</dt><dd>360 days</dd></div><div><dt>24 months</dt><dd>720 days</dd></div><div><dt>48 months</dt><dd>1440 days</dd></div>
+  </dl>
+  <p class="tk-copy">MDC Treasury / Vesting contracts use fixed-duration periods, not a natural-calendar month/year model. One day is 86,400 seconds. Calendar dates drift relative to these fixed periods by design; all timing is enforced by Ethereum <code>block.timestamp</code>.</p>
+  <div class="tk-genesis">Genesis Reference Timestamp: <code>1788720515</code><br><time datetime="2026-09-06T18:48:35Z">2026-09-06 18:48:35 UTC</time> · Ethereum block 25,920,202</div>
+  <p class="tk-copy">Every schedule is derived from this Genesis. Deployment of an individual Vault, publication of this page or later document updates do not reset its schedule. The first tranche is eligible at its startTime, not one interval later.</p>
+</div>
+<div class="tk-heading"><h3>Seven allocations. One fixed supply.</h3><p>54,000,000 MDC · 100% total allocation</p></div>
+<div class="tk-allocations">
+  <article class="tk-allocation" id="tokenomics-founder">
+    <h3>Founder</h3><div class="tk-amount-row"><span class="tk-amount">5,000,000 MDC</span><span class="tk-pct">9.26%</span></div>
+    <div class="tk-split"><span class="tk-instance">H1 · FOUNDER RELEASABLE VAULT</span><h4>4,000,000 MDC</h4>
+      <p>Initial lock: <strong>720 days from Genesis</strong>. At startTime, 50,000 MDC becomes eligible; another maximum 50,000 MDC becomes eligible every <strong>30 days</strong>. There are 80 tranches, capped at 4,000,000 MDC. Eligibility only, not automatic distribution.</p>
+      <details class="tk-detail"><summary>Founder schedule parameters</summary><dl><div><dt>startTime · Genesis + 720 days</dt><dd><code>1850928515</code><br>2028-08-26 18:48:35 UTC</dd></div><div><dt>interval / amountPerInterval</dt><dd>2592000 seconds / 50,000 MDC</dd></div><div><dt>Final tranche</dt><dd>Period 80 = startTime + 79 × 30 days</dd></div></dl></details>
+    </div>
+    <div class="tk-split"><span class="tk-instance">H2 · FOUNDER PERMANENT LOCK</span><h4>1,000,000 MDC</h4>
+      <p><strong>Permanently and irreversibly locked.</strong> This is not ordinary vesting or a time-lock awaiting an unlock date. There is no beneficiary or Treasury.</p>
+      <div class="tk-terms"><span>No release</span><span>No withdraw</span><span>No rescue</span><span>No recovery path</span><span>No upgrade path</span><span>No outbound MDC path</span></div>
+    </div>
+  </article>
+  <article class="tk-allocation" id="tokenomics-liquidity">
+    <h3>Liquidity Reserve</h3><div class="tk-amount-row"><span class="tk-amount">13,500,000 MDC</span><span class="tk-pct">25.00%</span></div>
+    <div class="tk-split"><span class="tk-instance">HISTORICAL BATCH 1 · SEPARATE</span><h4>Nominal allowance: 5,000,000 MDC</h4>
+      <p>Already deployed historically and accounted separately. Actual original LP contribution: <strong>4,999,999.9999999999761456 MDC</strong>. This is a historical amount, not the current LP composition.</p>
+      <p><strong>Historical Batch 1 is not included in the H7 Vault</strong> or the 49M production Vault/Lock funding.</p>
+    </div>
+    <div class="tk-split"><span class="tk-instance">H7 · REMAINING LIQUIDITY RESERVE VAULT</span><h4>8,500,000 MDC</h4>
+      <p>Batch 2: <strong>5,000,000 MDC</strong> eligibility at Genesis + 180 days. Batch 3: an additional <strong>3,500,000 MDC</strong> at Genesis + 360 days. H7’s final maximum eligibility is 8,500,000 MDC.</p>
+      <p>These are eligibility limits, not mandatory liquidity deployment. The full 13.5M is not held in one Vault.</p>
+      <details class="tk-detail"><summary>Liquidity batch parameters</summary><dl><div><dt>batch2Time / batch2Amount</dt><dd><code>1804272515</code> / 5,000,000 MDC<br>2027-03-05 18:48:35 UTC</dd></div><div><dt>batch3Time / batch3Amount</dt><dd><code>1819824515</code> / 3,500,000 MDC<br>2027-09-01 18:48:35 UTC</dd></div></dl></details>
+    </div>
+  </article>
+  <article class="tk-allocation" id="tokenomics-security">
+    <h3>Security / Bug Bounty</h3><div class="tk-amount-row"><span class="tk-amount">5,000,000 MDC</span><span class="tk-pct">9.26%</span></div>
+    <span class="tk-instance">H3 · SECURITY VAULT</span>
+    <h4>10,000 MDC every 30 days</h4>
+    <p>Maximum eligibility begins at Genesis and accumulates up to the allocation. For genuine, validated security research, vulnerability reports, fixes and qualifying security contributions.</p>
+    <p>If no valid security contribution exists, <strong>actual distribution may be 0</strong>. It is not automatically distributed.</p>
+    <details class="tk-detail"><summary>Security schedule parameters</summary><dl><div><dt>startTime · Genesis</dt><dd><code>1788720515</code></dd></div><div><dt>interval / amountPerInterval</dt><dd>2592000 seconds / 10,000 MDC</dd></div></dl></details>
+  </article>
+  <article class="tk-allocation" id="tokenomics-promotion">
+    <h3>Community Promotion</h3><div class="tk-amount-row"><span class="tk-amount">1,000,000 MDC</span><span class="tk-pct">1.85%</span></div>
+    <span class="tk-instance">H4 · PROMOTION VAULT</span>
+    <h4>1,000 MDC every 30 days</h4>
+    <p>Maximum eligibility begins at Genesis and accumulates up to the allocation. For genuine community building, early user testing, reasonable promotion and participation.</p>
+    <p><strong>Not automatically distributed.</strong> Actual use may be 0 when there is no reasonable need. Small test distributions should retain date, amount, purpose and transaction records.</p>
+    <details class="tk-detail"><summary>Promotion schedule parameters</summary><dl><div><dt>startTime · Genesis</dt><dd><code>1788720515</code></dd></div><div><dt>interval / amountPerInterval</dt><dd>2592000 seconds / 1,000 MDC</dd></div></dl></details>
+  </article>
+  <article class="tk-allocation" id="tokenomics-development">
+    <h3>Development / App</h3><div class="tk-amount-row"><span class="tk-amount">5,000,000 MDC</span><span class="tk-pct">9.26%</span></div>
+    <span class="tk-instance">H5 · DEVELOPMENT VAULT</span>
+    <h4>10,000 MDC every 30 days</h4>
+    <p>Maximum eligibility begins at Genesis and accumulates up to the allocation. Only for genuine development, infrastructure, future MDC App needs, developer contributions and necessary technical services.</p>
+    <p>Actual use may be 0 when there is no genuine need. Unused amounts remain in the Development Vault or Treasury.</p>
+    <details class="tk-detail"><summary>Development schedule parameters</summary><dl><div><dt>startTime · Genesis</dt><dd><code>1788720515</code></dd></div><div><dt>interval / amountPerInterval</dt><dd>2592000 seconds / 10,000 MDC</dd></div></dl></details>
+  </article>
+  <article class="tk-allocation" id="tokenomics-team">
+    <h3>Team &amp; Contributors</h3><div class="tk-amount-row"><span class="tk-amount">5,000,000 MDC</span><span class="tk-pct">9.26%</span></div>
+    <span class="tk-instance">H6 · TEAM VAULT</span>
+    <h4>500,000 MDC every 180 days</h4>
+    <p>Initial lock: <strong>360 days from Genesis</strong>. The first 500,000 MDC becomes eligible at startTime, followed by one tranche every 180 days. <strong>10 tranches total</strong>, capped at 5,000,000 MDC.</p>
+    <p><strong>Not automatic salary. Not automatic distribution.</strong> Actual use depends on genuine, identifiable contribution and can be partial or 0.</p>
+    <details class="tk-detail"><summary>Team schedule parameters</summary><dl><div><dt>startTime · Genesis + 360 days</dt><dd><code>1819824515</code><br>2027-09-01 18:48:35 UTC</dd></div><div><dt>interval / amountPerInterval</dt><dd>15552000 seconds / 500,000 MDC</dd></div><div><dt>Final tranche</dt><dd>Period 10 = startTime + 9 × 180 days = Genesis + 1980 days</dd></div></dl></details>
+  </article>
+  <article class="tk-allocation tk-wide" id="tokenomics-ecosystem">
+    <h3>Community / Ecosystem Reserve</h3><div class="tk-amount-row"><span class="tk-amount">19,500,000 MDC</span><span class="tk-pct">36.11%</span></div>
+    <p>Two independent <strong>9,750,000 MDC</strong> reserves with separate schedules. The same tokens are never counted in both parts. Each tranche is maximum eligibility, not mandatory distribution.</p>
+    <div class="tk-schedule-grid">
+      <div class="tk-schedule" id="tokenomics-h8"><span class="tk-instance">H8 · ECOSYSTEM PART I</span><h4>9,750,000 MDC</h4>
+        <p>Initial lock: 1080 days from Genesis. The first <strong>750,000 MDC</strong> becomes eligible at startTime. Every <strong>360 days</strong>, the next tranche increases by 50,000 MDC, for <strong>10 periods</strong>.</p>
+        <table><caption>Part I · maximum eligibility per tranche</caption><thead><tr><th scope="col">Period</th><th scope="col">MDC</th></tr></thead><tbody>
+          <tr><td>1 · startTime</td><td>750,000</td></tr><tr><td>2</td><td>800,000</td></tr><tr><td>3</td><td>850,000</td></tr><tr><td>4</td><td>900,000</td></tr><tr><td>5</td><td>950,000</td></tr><tr><td>6</td><td>1,000,000</td></tr><tr><td>7</td><td>1,050,000</td></tr><tr><td>8</td><td>1,100,000</td></tr><tr><td>9</td><td>1,150,000</td></tr><tr><td>10</td><td>1,200,000</td></tr>
+        </tbody><tfoot><tr><td>Total</td><td>9,750,000 MDC</td></tr></tfoot></table>
+        <details class="tk-detail"><summary>Part I schedule parameters</summary><dl><div><dt>startTime · Genesis + 1080 days</dt><dd><code>1882032515</code><br>2029-08-21 18:48:35 UTC</dd></div><div><dt>interval</dt><dd>31104000 seconds / 360 days</dd></div><div><dt>initialAmount / stepAmount / periodCount</dt><dd>750,000 MDC / 50,000 MDC / 10</dd></div></dl></details>
+      </div>
+      <div class="tk-schedule" id="tokenomics-h9"><span class="tk-instance">H9 · ECOSYSTEM PART II</span><h4>9,750,000 MDC</h4>
+        <p>The first <strong>4,875,000 MDC</strong> becomes eligible at Genesis + 2880 days. Thereafter, every <strong>1440 days</strong>, the next tranche is half the previous tranche, rounded down in integer base units.</p>
+        <table><caption>Part II · first five eligibility tranches</caption><thead><tr><th scope="col">Period</th><th scope="col">MDC</th></tr></thead><tbody>
+          <tr><td>1 · startTime</td><td>4,875,000</td></tr><tr><td>2</td><td>2,437,500</td></tr><tr><td>3</td><td>1,218,750</td></tr><tr><td>4</td><td>609,375</td></tr><tr><td>5</td><td>304,687.5</td></tr>
+        </tbody></table>
+        <div class="tk-terminal"><strong>83 non-zero tranches</strong>Final maximum cumulative eligibility:<br>allocation − 23 base units</div>
+        <p><strong>23 base units remain permanently ineligible for release inside H9’s allocation.</strong> This is not a burn, not an extra lock contract and not the Funding Source residual. No final sweep or rounding catch-up exists.</p>
+        <details class="tk-detail"><summary>Part II schedule and exact integers</summary><dl><div><dt>startTime · Genesis + 2880 days</dt><dd><code>2037552515</code><br>2034-07-26 18:48:35 UTC</dd></div><div><dt>interval / initialAmount</dt><dd>124416000 seconds / 4,875,000 MDC</dd></div><div><dt>Integer floor-halving</dt><dd><code>nextTranche = floor(previousTranche / 2)</code><br>Amounts use 18-decimal base units, never floating-point arithmetic.</dd></div><div><dt>Terminal cumulative eligibility</dt><dd><code>9749999999999999999999977</code> base units</dd></div><div><dt>Final non-zero tranche</dt><dd>Period 83: 1 base unit at <code>12239664515</code><br>startTime + 82 × interval. All later tranches are 0; cumulative eligibility stays unchanged.</dd></div><div><dt>Permanently ineligible amount</dt><dd>23 base units = 0.000000000000000023 MDC</dd></div></dl></details>
+      </div>
+    </div>
+  </article>
+</div>
+<div class="tk-release">
+  <h3>How release works</h3>
+  <p class="tk-copy"><code>release(uint256 amount)</code> requires an explicit Ethereum transaction. It does not happen automatically.</p>
+  <ul><li>Any address can call it. The caller cannot choose the destination and does not receive tokens merely by calling.</li><li>Tokens always go to the fixed Treasury for that Vault.</li><li>The amount must be positive and cannot exceed either remaining eligibility (<code>releasable</code>) or the actual Vault balance.</li><li><code>availableToReleaseNow</code> is the smaller of those two limits, not an amount already released.</li><li>State is updated before transfer; a transfer failure reverts the transaction.</li></ul>
+  <h4>Immutable destination. Safe-managed Treasury.</h4>
+  <p class="tk-copy">Each releasable Vault has an immutable Treasury address. Treasury funds are managed by the corresponding Safe. Safe signer and threshold configuration is operational governance, not the same as the immutable Vault Treasury address. Signers, threshold, modules, guard and fallback handler can change under valid Safe rules; changes require separate review and recording.</p>
+  <p class="tk-copy">Treasury spending and distribution are separate from release into the Treasury. Unused resources may remain in the Vault or Treasury; reaching eligibility does not require a sale or forced distribution.</p>
+  <details class="tk-detail"><summary>Historical accounting: two different residuals</summary>
+    <p class="tk-copy">The <strong>Funding Source accounting residual is 23,854,400 base units</strong> (0.0000000000238544 MDC), the difference between the nominal 5M Batch 1 allowance and the actual historical LP contribution. The Production Registry records it at the Funding Source in snapshot S1. It is not a new allocation and is not added to H7 or another Vault.</p>
+    <p class="tk-copy"><strong>H9’s 23 permanently ineligible base units</strong> are already inside H9’s allocation and the 49M funding total. They are completely separate from the Source residual.</p>
+    <p class="tk-copy">49,000,000 MDC production funding + 4,999,999.9999999999761456 MDC historical Batch 1 + 0.0000000000238544 MDC Source residual = 54,000,000 MDC. This is historical funding reconciliation, not a formula for the sum of future current Vault balances.</p>
+  </details>
+</div>
+<div class="tk-production" id="tokenomics-production">
+  <div class="kicker">From rules to production</div><h3>Production Implementation</h3>
+  <p class="tk-copy"><strong>9 production Treasury / Vesting instances are deployed on Ethereum Mainnet</strong>, with 49,000,000 MDC in completed production funding. H1–H9 map to the allocations above; Historical Liquidity Batch 1 is separate. Current balances and eligibility must be read at a named snapshot, not inferred from these original allocations.</p>
+  <div class="tk-links"><a href="transparency.html">Transparency Dashboard ↗</a><a href="transparency/history.html">Audit History ↗</a></div>
+  <p class="tk-copy">These are read-only public transparency tools. Operational checks and source/runtime/parameter conformity verification are not a third-party security audit, formal verification or a security guarantee.</p>
+</div>
+</section>
 <section id="liquidity"><div class="kicker">Liquidity Transparency</div><h2>Initial MDC / ETH Liquidity Locked On-Chain</h2><div class="card"><p>The first official MDC / ETH liquidity position was created on Uniswap V4 and locked through UNCX. The liquidity remains active in the Uniswap pool while the position principal cannot be withdrawn before the unlock date.</p><div class="grid" style="margin-top:16px"><div class="stat"><div class="label">Position</div><div class="value">NFT #396442</div></div><div class="stat"><div class="label">UNCX Lock</div><div class="value">#106</div></div><div class="stat"><div class="label">Initial MDC</div><div class="value">~5,000,000</div></div><div class="stat"><div class="label">Initial ETH</div><div class="value">~0.1122</div></div><div class="stat"><div class="label">Fee Tier</div><div class="value">0.25%</div></div><div class="stat"><div class="label">Unlock</div><div class="value">Sep 8, 2028 17:30 UTC</div></div></div><div class="proof"><div class="proof-row"><strong>Pool ID</strong><br>0x0951b427016a3fc5c7c8ca7217af4ac5b86b76ef2c5cdd20f1caaf6de22b3ff3</div><div class="proof-row"><strong>Lock Transaction</strong><br>0xe0d22ea9d019a49c736ee4b5bc0457a937df691cc1eb847b8fea6a60de3e0aa8</div><div class="proof-row"><strong>UNCX V4 Locker</strong><br>0x147AECa171a79466Fe9E2c03f21b45155Ff403F8</div></div><div class="hero-actions" style="margin-top:18px"><a class="btn btn-secondary" href="https://app.uniswap.org/explore/pools/ethereum/0x0951b427016a3fc5c7c8ca7217af4ac5b86b76ef2c5cdd20f1caaf6de22b3ff3" target="_blank" rel="noopener">View Uniswap Pool</a><a class="btn btn-secondary" href="https://etherscan.io/tx/0xe0d22ea9d019a49c736ee4b5bc0457a937df691cc1eb847b8fea6a60de3e0aa8" target="_blank" rel="noopener">Verify Lock Transaction</a></div><p class="note">Liquidity locking limits withdrawal of the locked position until the stated unlock time. It does not eliminate smart-contract, protocol, market, or other digital-asset risks.</p></div></section><section id="swap"><div class="kicker">Swap MDC</div><h2>Swap MDC on Uniswap</h2><div class="card"><p>MDC is available through the official MDC / ETH liquidity pool on Uniswap V4. A successful swap sends MDC directly to your connected Ethereum wallet.</p><div class="hero-actions" style="justify-content:flex-start;margin-top:18px"><a class="btn btn-primary" href="https://app.uniswap.org/explore/pools/ethereum/0x0951b427016a3fc5c7c8ca7217af4ac5b86b76ef2c5cdd20f1caaf6de22b3ff3" target="_blank" rel="noopener">Open Official Uniswap Pool</a><a class="btn btn-secondary" href="https://etherscan.io/address/0xd6b160672Fad1376943F1E6d60C41adb103aED33" target="_blank" rel="noopener">Verify Contract</a></div><p class="note">Always verify the official MDC contract address before swapping. Never rely only on a token name or symbol.</p><div class="contract">0xd6b160672Fad1376943F1E6d60C41adb103aED33</div></div><div class="grid" style="margin-top:16px"><div class="stat"><div class="label">Step 1</div><div class="value">Open Uniswap</div><p class="note">Use the official pool link above.</p></div><div class="stat"><div class="label">Step 2</div><div class="value">Connect Wallet</div><p class="note">Connect an Ethereum-compatible wallet and keep ETH for the swap and network gas.</p></div><div class="stat"><div class="label">Step 3</div><div class="value">Swap ETH → MDC</div><p class="note">Review the token address, amount, price impact and transaction details before confirming.</p></div><div class="stat"><div class="label">Step 4</div><div class="value">Hold in Your Wallet</div><p class="note">After confirmation, MDC is held directly at your wallet address. Some wallets may require importing the token contract to display it.</p></div></div><p class="note">Uniswap is a third-party decentralized protocol. MDC does not guarantee execution price, liquidity, availability, or future token value. Digital assets can be volatile.</p></section><section id="security"><div class="kicker">Security</div><h2>Verify Before You Trust</h2>
 <div class="security-box">
 <h3>Official MDC Information</h3>
