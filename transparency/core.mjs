@@ -13,9 +13,27 @@ const HEX = /^0x(?:[0-9a-f]{2})*$/i;
 const lower = value => value.toLowerCase();
 export class ReadError extends Error {
   constructor(code, detail, instance = null, retryable = false) {
-    super(`${code}${detail ? ': ' + detail : ''}`);
+    // Codes originate locally. Never retain upstream text, payloads or causes.
+    super(code);
     this.code = code; this.instance = instance; this.retryable = retryable;
   }
+}
+const PUBLIC_MESSAGES = Object.freeze({
+  RPC_TEMPORARILY_UNAVAILABLE: 'Live data is temporarily unavailable. Please try again later.',
+  SNAPSHOT_UNAVAILABLE: 'Verified data is unavailable. Please try again later.',
+  CHAIN_VERIFICATION_FAILED: 'Ethereum Mainnet could not be verified. No new snapshot was accepted.',
+  DATA_INCOMPLETE: 'The response was incomplete or invalid. No new snapshot was accepted.',
+  INTEGRITY_CHECK_FAILED: 'Data integrity checks failed. No new snapshot was accepted.'
+});
+export function publicError(error) {
+  let code = 'SNAPSHOT_UNAVAILABLE';
+  if (error instanceof ReadError) {
+    if (['RPC TIMEOUT', 'RPC NETWORK ERROR', 'RPC HTTP ERROR', 'RPC RATE LIMITED (429)', 'RPC GETTER / METHOD ERROR'].includes(error.code)) code = 'RPC_TEMPORARILY_UNAVAILABLE';
+    else if (error.code === 'WRONG CHAIN') code = 'CHAIN_VERIFICATION_FAILED';
+    else if (['PARAMETER MISMATCH', 'BALANCE MISMATCH', 'SCHEDULE STATE MISMATCH', 'BLOCK HASH MISMATCH', 'BLOCK NUMBER MISMATCH'].includes(error.code)) code = 'INTEGRITY_CHECK_FAILED';
+    else code = 'DATA_INCOMPLETE';
+  }
+  return Object.freeze({ code, message: PUBLIC_MESSAGES[code] });
 }
 function requireTrue(condition, code, detail, instance) { if (!condition) throw new ReadError(code, detail, instance); }
 export function quantity(value) {
@@ -158,8 +176,8 @@ export class ReadClient {
           let response;
           try {
             response = await this.fetcher(this.endpoint.url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'omit', referrerPolicy: 'no-referrer', cache: 'no-store', signal: controller.signal, body: JSON.stringify(batch.length === 1 ? batch[0] : batch) });
-          } catch (error) { throw new ReadError('RPC NETWORK ERROR', String(error?.message ?? 'Request failed').slice(0, 180), null, true); }
-          if (!response.ok) throw new ReadError(response.status === 429 ? 'RPC RATE LIMITED (429)' : `RPC HTTP ${response.status}`, '', null, true);
+          } catch { throw new ReadError('RPC NETWORK ERROR', '', null, true); }
+          if (!response?.ok) throw new ReadError(response?.status === 429 ? 'RPC RATE LIMITED (429)' : 'RPC HTTP ERROR', '', null, true);
           let payload;
           try { payload = await response.json(); } catch { throw new ReadError('INVALID RPC JSON'); }
           const items = batch.length === 1 ? [payload] : payload;
@@ -168,7 +186,7 @@ export class ReadClient {
           return batch.map(request => {
             const item = items.find(x => x?.id === request.id);
             requireTrue(item?.jsonrpc === '2.0', 'INVALID RPC RESPONSE');
-            if (item.error) throw new ReadError('RPC GETTER / METHOD ERROR', `${request.method}: ${String(item.error.message ?? item.error.code).slice(0, 180)}`);
+            if (item.error) throw new ReadError('RPC GETTER / METHOD ERROR');
             requireTrue(Object.hasOwn(item, 'result'), 'MISSING RPC RESULT');
             return item.result;
           });
@@ -251,10 +269,11 @@ export class SnapshotStore {
           const next = await readSnapshot(new ReadClient(this.endpoints[i], this.clientOptions), this.now, this.identityCache);
           this.snapshot = next; this.identityCache = next.identityCache; this.error = null; return true;
         } catch (error) {
-          this.error = error;
-          if (!error.retryable) this.identityCache = Object.freeze({});
+          // Unexpected browser/runtime errors must not survive into store JSON.
+          this.error = error instanceof ReadError ? error : new ReadError('SNAPSHOT UNAVAILABLE');
+          if (!this.error.retryable) this.identityCache = Object.freeze({});
           // Availability fallback restarts the ENTIRE snapshot. Integrity errors stop.
-          if (!error.retryable || i === this.endpoints.length - 1) return false;
+          if (!this.error.retryable || i === this.endpoints.length - 1) return false;
         }
       }
       return false;

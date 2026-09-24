@@ -1,5 +1,5 @@
 import { CONFIG } from './config.mjs';
-import { SnapshotStore, formatMDC, utc, partISchedule, halvingSummary, canRefresh } from './core.mjs';
+import { SnapshotStore, formatMDC, utc, partISchedule, halvingSummary, canRefresh, publicError } from './core.mjs';
 
 const store = new SnapshotStore();
 const element = id => document.getElementById(id);
@@ -74,11 +74,12 @@ function renderStatus() {
   element('refresh').disabled = store.busy;
   element('instances').setAttribute('aria-busy', String(store.busy));
   element('snapshot-error').hidden = !store.error;
-  element('snapshot-error').textContent = store.error ? `${store.error.message}${store.error.instance ? ' · ' + store.error.instance : ''}. ${snapshot ? `Retaining the complete snapshot at block ${snapshot.block.number}.` : 'No live values have been published.'}` : '';
+  const safe = store.error ? publicError(store.error) : null;
+  element('snapshot-error').textContent = safe ? `${safe.code} · ${safe.message} ${snapshot ? `Retaining the complete snapshot at block ${snapshot.block.number}.` : 'No live values have been published.'}` : '';
   if (snapshot) {
     element('snapshot-block').textContent = snapshot.block.number.toString();
     element('snapshot-utc').textContent = utc(snapshot.block.timestamp);
-    element('snapshot-source').textContent = `${snapshot.source.label} · ${snapshot.source.url}`;
+    element('snapshot-source').textContent = snapshot.source.label;
     element('snapshot-updated').textContent = utc(snapshot.updatedAt / 1000n);
   }
   element('refresh-note').textContent = document.hidden ? 'Automatic refresh paused while this page is hidden.' : 'Refreshes every 60 seconds while this page is visible. Values older than 120 seconds are marked STALE.';

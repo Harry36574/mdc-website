@@ -1,5 +1,5 @@
 import { CADENCES, T0, cadence, calendarLabel, utcLabel, publishedCounts, verifyBundle, safeEntry, explorer } from './core.mjs';
-import { formatMDC } from '../core.mjs';
+import { formatMDC, publicError } from '../core.mjs';
 const root=new URL('./',import.meta.url),local=['localhost','127.0.0.1','[::1]'].includes(location.hostname);
 const preview=new URLSearchParams(location.search).get('preview')==='dry-run';
 const names={AUDIT_30D:'30-day Audit',SAFE_REVIEW_3M:'Safe Review',REGISTRY_RECONCILIATION_6M:'Registry Reconciliation',RELEASE_EVENT:'Release Event',TREASURY_SECURITY_CHANGE:'Treasury Security Change'};
@@ -39,11 +39,11 @@ async function refresh(){if(busy)return;busy=true;resetCounts();$('reload-histor
       try{const files=Object.fromEntries(await Promise.all(['record.json','report.md','evidence.json','manifest.json','manifest.sha256'].map(async name=>[name,await fetchBytes(new URL(name,base))])));const {record,manifest}=await verifyBundle(files,entry.manifestSha256);
         if(record.recordId!==entry.recordId||record.publicationStatus!==(preview?'DRY_RUN_UNPUBLISHED':'PUBLISHED')||(!preview&&!record.publishedAtUtc)||(preview&&record.publishedAtUtc!==null))throw Error('PUBLICATION_STATE_MISMATCH');
         loaded.push({entry,base,record,manifest,preview});
-      }catch(error){loaded.push({entry,error:String(error.message),preview});}
+      }catch(error){loaded.push({entry,error:publicError(error).message,preview});}
     }
     const errors=loaded.filter(x=>!x.record).length;$('load-status').textContent=errors?`${errors} record(s) unavailable or failed integrity. No PASS is inferred.`:preview?`${loaded.length} local dry-run record(s) · UNPUBLISHED · SHA-256 verified`:loaded.length?`${loaded.length} published record(s) · SHA-256 verified`:'0 published record(s) · NO FORMAL RECORD YET';
     renderCalendar();render();
-  }catch(error){loaded=[];$('load-status').textContent='HISTORY UNAVAILABLE — '+error.message;$('records').replaceChildren(el('p','INCOMPLETE. Previous records and maintenance status cannot be established.','error'));$('cadences').replaceChildren(el('p','Maintenance status unavailable.','error'));$('records').setAttribute('aria-busy','false');$('cadences').setAttribute('aria-busy','false');}
+  }catch(error){loaded=[];const safe=publicError(error);$('load-status').textContent='HISTORY UNAVAILABLE — '+safe.code+' · '+safe.message;$('records').replaceChildren(el('p','INCOMPLETE. Previous records and maintenance status cannot be established.','error'));$('cadences').replaceChildren(el('p','Maintenance status unavailable.','error'));$('records').setAttribute('aria-busy','false');$('cadences').setAttribute('aria-busy','false');}
   finally{busy=false;$('reload-history').disabled=false;}
 }
 for(const button of document.querySelectorAll('[data-filter]'))button.addEventListener('click',()=>{filter=button.dataset.filter;for(const b of document.querySelectorAll('[data-filter]'))b.setAttribute('aria-pressed',String(b===button));render();});
