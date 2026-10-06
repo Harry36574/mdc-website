@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>MDC Faucet</title>
+  <meta name="description" content="Submit your Ethereum address and X username for manual review. 10 MDC per approved participant.">
+  <link rel="stylesheet" href="./faucet.css">
+  <script src="./faucet.mjs" type="module"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+</head>
+<body>
+  <main class="card">
+    <div class="brand">MDC</div>
+    <p class="eyebrow">MANUAL REVIEW</p>
+    <h1>MDC Faucet</h1>
+    <p class="intro">Submit your details. Approved participants receive 10 MDC, sent manually by the administrator.</p>
+    <div class="facts" aria-label="Faucet allocation">
+      <div><strong>1000 MDC</strong><span>Total</span></div>
+      <div><strong>100</strong><span>Participants</span></div>
+      <div><strong>10 MDC</strong><span>Per approved participant</span></div>
+    </div>
+    <form id="application-form" novalidate>
+      <label for="wallet">Ethereum Address</label>
+      <input id="wallet" name="walletAddress" type="text" placeholder="0x…" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="44" required aria-describedby="wallet-help">
+      <small id="wallet-help">Use the Ethereum address where you want to receive MDC.</small>
+      <label for="username">X Username</label>
+      <input id="username" name="xUsername" type="text" placeholder="Your X username" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="32" required>
+      <div id="captcha" class="captcha" aria-label="Human verification"></div>
+      <button id="submit" type="submit" disabled>Submit</button>
+      <p id="message" role="status" aria-live="polite">Loading…</p>
+    </form>
+    <p class="remaining" id="remaining">Remaining: — / 100</p>
+    <p class="note">Each Ethereum address and X username can apply once. Please double-check your address.</p>
+    <footer><a href="https://mdctoken.org/">MDC website</a><span>·</span><a href="mailto:contact@mdctoken.org">contact@mdctoken.org</a></footer>
+  </main>
+</body>
+</html>
