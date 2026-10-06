@@ -46,6 +46,15 @@ h2{color:var(--gold);font-size:clamp(32px,5vw,46px);margin:8px 0 22px}.card{back
 .tokenomics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.tokenomics-item{background:#121212;border:1px solid var(--line);border-radius:12px;padding:20px}.tokenomics-item h3{margin:0 0 6px;color:var(--gold)}.tokenomics-item .amount{font-size:20px;font-weight:700}.tokenomics-item .pct{color:var(--muted);font-size:13px}.proof{display:grid;gap:10px;margin-top:16px}.proof-row{background:#0b0b0b;border:1px solid var(--line);border-radius:9px;padding:13px;word-break:break-all}@media(max-width:760px){.navlinks{display:none}nav{padding:16px 6%}section{padding:56px 18px}.card{padding:24px}}
 /* Approved existing-layout fixes: wrap navigation and the public contract address. */
 .navlinks{flex-wrap:wrap;justify-content:flex-end;row-gap:8px}
+nav{gap:22px}.brand{flex-shrink:0}
+.mobile-nav{display:none;position:relative}
+.mobile-nav summary{list-style:none;cursor:pointer;font:inherit;color:var(--text);padding:10px 14px;border-radius:9px;min-height:44px}
+.mobile-nav summary::-webkit-details-marker{display:none}
+.mobile-nav summary:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.mobile-nav-links{position:absolute;right:0;top:calc(100% + 20px);width:min(300px,88vw);max-height:calc(100svh - 100px);overflow:auto;background:#111;border:1px solid var(--line);border-radius:9px;padding:8px;box-shadow:0 12px 30px #0008}
+.mobile-nav-links a{display:block;text-decoration:none;padding:10px 14px;min-height:44px;border-radius:6px}
+.mobile-nav-links a:hover,.mobile-nav-links a:focus-visible{background:#222;color:var(--gold)}
+@media(max-width:760px){.mobile-nav{display:block}.hero{padding:48px 20px}.hero-actions a:first-child{flex-basis:100%}}
 #security .security-box p{overflow-wrap:anywhere}
 /* Tokenomics production alignment — styles apply only to this section. */
 #tokenomics{scroll-margin-top:84px}
@@ -111,12 +120,12 @@ h2{color:var(--gold);font-size:clamp(32px,5vw,46px);margin:8px 0 22px}.card{back
 </style>
 </head>
 <body>
-<nav><div class="brand"><img src="mdc-logo.jpg" class="brand-logo" alt="MDC logo"><span>MDC</span></div><div class="navlinks"><a href="#about">About</a><a href="#token">Token</a><a href="#tokenomics">Tokenomics</a><a href="transparency.html">Transparency</a><a href="#liquidity">Liquidity</a><a href="#swap">Swap</a><a href="#vision">Vision</a><a href="#roadmap">Roadmap</a><a href="#community">Community</a></div></nav>
+<nav aria-label="Main navigation"><div class="brand"><img src="mdc-logo.jpg" class="brand-logo" alt="MDC logo"><span>MDC</span></div><div class="navlinks"><a href="/faucet.html">Faucet</a><a href="#about">About</a><a href="#token">Token</a><a href="#tokenomics">Tokenomics</a><a href="transparency.html">Transparency</a><a href="#liquidity">Liquidity</a><a href="#swap">Swap</a><a href="#vision">Vision</a><a href="#roadmap">Roadmap</a><a href="#community">Community</a></div><details class="mobile-nav"><summary class="btn-secondary" aria-label="Open navigation menu">Menu <span aria-hidden="true">☰</span></summary><div class="mobile-nav-links"><a href="/faucet.html">Faucet</a><a href="#about">About</a><a href="#token">Token</a><a href="#tokenomics">Tokenomics</a><a href="transparency.html">Transparency</a><a href="#liquidity">Liquidity</a><a href="#swap">Swap</a><a href="#vision">Vision</a><a href="#roadmap">Roadmap</a><a href="#community">Community</a></div></details></nav>
 
 <header class="hero"><div class="hero-inner">
 <div class="badge">Built on Ethereum</div><h1>MDC</h1><h3>A community-driven digital asset ecosystem built on Ethereum.</h3>
 <p>People come first.<br>Community creates connection.<br>Connection creates opportunity.</p>
-<div class="hero-actions"><a class="btn btn-primary" href="#swap">Swap MDC on Uniswap</a><a class="btn btn-secondary" href="#about">Explore MDC</a><a class="btn btn-secondary" href="https://etherscan.io/address/0xd6b160672Fad1376943F1E6d60C41adb103aED33" target="_blank" rel="noopener">View Contract</a></div>
+<div class="hero-actions"><a class="btn btn-primary" href="/faucet.html">Claim 10 MDC</a><a class="btn btn-primary" href="#swap">Swap MDC on Uniswap</a><a class="btn btn-secondary" href="#about">Explore MDC</a><a class="btn btn-secondary" href="https://etherscan.io/address/0xd6b160672Fad1376943F1E6d60C41adb103aED33" target="_blank" rel="noopener">View Contract</a></div>
 </div></header>
 
 <section id="about"><div class="kicker">About</div><h2>What is MDC?</h2><div class="card">
@@ -311,7 +320,7 @@ h2{color:var(--gold);font-size:clamp(32px,5vw,46px);margin:8px 0 22px}.card{back
 <p>Users should conduct their own research and make independent decisions before interacting with digital assets.</p>
 </div></section>
 
-<footer><div><strong>MDC</strong></div><div style="margin-top:8px">People come first. Build together. Grow together.</div><div style="margin-top:14px">Email: <a href="mailto:contact@mdctoken.org" style="color:var(--gold-soft);overflow-wrap:anywhere">contact@mdctoken.org</a></div><div style="margin-top:14px">© 2026 MDC. All rights reserved.</div></footer>
+<footer><div><strong>MDC</strong></div><div style="margin-top:8px">People come first. Build together. Grow together.</div><div style="margin-top:14px">Email: <a href="mailto:contact@mdctoken.org" style="color:var(--gold-soft);overflow-wrap:anywhere">contact@mdctoken.org</a></div><div style="margin-top:14px"><a href="/faucet.html" style="color:var(--gold-soft)">MDC Faucet</a></div><div style="margin-top:14px">© 2026 MDC. All rights reserved.</div></footer>
 <script>
 async function copyContract(){
   const address = document.getElementById('contractAddress').textContent.trim();
