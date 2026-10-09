@@ -32,8 +32,40 @@
       <button id="submit" type="submit" disabled>Submit</button>
       <p id="message" role="status" aria-live="polite">Loading…</p>
     </form>
+    <section id="submission-receipt" class="result" hidden>
+      <h2>Application submitted successfully.</h2>
+      <p>Application ID:</p><code id="saved-application-id"></code>
+      <p>Please save this ID. You can use it to check your application status.</p>
+      <p class="note">Keep this ID private. It allows access to your status and any correction requested by the administrator.</p>
+    </section>
     <p class="remaining" id="remaining">Remaining: — / 100</p>
     <p class="note">Each Ethereum address and X username can apply once. Please double-check your address.</p>
+    <section class="status-section" aria-labelledby="status-heading">
+      <h2 id="status-heading">Check Application Status</h2>
+      <form id="status-form" novalidate>
+        <label for="application-id">Application ID</label>
+        <input id="application-id" name="applicationId" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="36" placeholder="Your saved Application ID" required>
+        <button id="check-status" type="submit">Check Status</button>
+      </form>
+      <p id="status-message" role="status" aria-live="polite"></p>
+      <section id="status-result" class="result" hidden>
+        <h3 id="status-title"></h3><p id="status-description"></p>
+        <p id="public-reason" hidden></p>
+        <p id="status-wallet"></p><p id="status-username"></p>
+        <p id="payment-details" hidden>Payment completed<br>Amount: 10 MDC<br>Transaction: <a id="payment-link" target="_blank" rel="noopener noreferrer"></a></p>
+        <button id="show-correction" type="button" hidden>Correct X Username</button>
+      </section>
+      <form id="correction-form" class="result" hidden novalidate>
+        <label for="correction-wallet">Ethereum Address</label>
+        <input id="correction-wallet" type="text" readonly aria-describedby="correction-wallet-help">
+        <small id="correction-wallet-help">Your original wallet address is fixed. Only your X username can be corrected.</small>
+        <label for="correction-username">New X Username</label>
+        <input id="correction-username" type="text" placeholder="@yourusername" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="32" required>
+        <div id="correction-captcha" class="captcha" aria-label="New human verification"></div>
+        <button id="submit-correction" type="submit" disabled>Submit Correction</button>
+        <p id="correction-message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
     <footer><a href="https://mdctoken.org/">MDC website</a><span>·</span><a href="mailto:contact@mdctoken.org">contact@mdctoken.org</a></footer>
   </main>
 </body>
