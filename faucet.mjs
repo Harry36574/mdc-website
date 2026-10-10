@@ -84,13 +84,19 @@ $('application-form').addEventListener('submit',async event=>{
   finally{busy=false;reset('apply');}
 });
 $('application-id').addEventListener('input',()=>{
-  if(busy)return;generation++;current=null;$('status-result').hidden=true;$('correction-form').hidden=true;reset('correct');
+  if(busy)return;$('application-id').ariaInvalid='false';show('status-message','');
+  generation++;current=null;$('status-result').hidden=true;$('correction-form').hidden=true;reset('correct');
 });
 $('status-form').addEventListener('submit',async event=>{
   event.preventDefault();if(busy)return;
   current=null;$('status-result').hidden=true;$('correction-form').hidden=true;reset('correct');
   const id=$('application-id').value.trim().toLowerCase(),requestGeneration=++generation;
-  if(!UUID.test(id)){show('status-message',errors.APPLICATION_NOT_FOUND,'error');return;}
+  if(!UUID.test(id)){
+    $('application-id').ariaInvalid='true';
+    show('status-message',id?'Please enter a valid Application ID.':'Please enter your Application ID.','error');
+    $('application-id').focus?.();return;
+  }
+  $('application-id').ariaInvalid='false';
   busy=true;ready();show('status-message','Checking…');
   try{const{response,data}=await post('/faucet/status','status',{applicationId:id});
     if(requestGeneration!==generation)return;

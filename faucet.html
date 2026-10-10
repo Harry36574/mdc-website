@@ -41,13 +41,27 @@
     <p class="remaining" id="remaining">Remaining: — / 100</p>
     <p class="note">Each Ethereum address and X username can apply once. Please double-check your address.</p>
     <section class="status-section" aria-labelledby="status-heading">
-      <h2 id="status-heading">Check Application Status</h2>
+      <h2 id="status-heading">Check Your Application Status</h2>
+      <p class="status-intro">Already applied for MDC? Enter your Application ID to check your review status.</p>
       <form id="status-form" novalidate>
         <label for="application-id">Application ID</label>
-        <input id="application-id" name="applicationId" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="36" placeholder="Your saved Application ID" required>
+        <input id="application-id" name="applicationId" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="36" placeholder="Enter or paste your Application ID" aria-describedby="application-id-help status-message" required>
+        <small id="application-id-help">Your Application ID was provided after you submitted your application. It is not your wallet address or X username.</small>
         <button id="check-status" type="submit">Check Status</button>
       </form>
-      <p id="status-message" role="status" aria-live="polite"></p>
+      <p id="status-message" role="status" aria-live="polite" aria-atomic="true"></p>
+      <details class="application-id-help">
+        <summary>Where can I find my Application ID?</summary>
+        <div class="application-id-help-content">
+          <h3>How to find your Application ID</h3>
+          <p>After successfully submitting your MDC Faucet application, you will see a unique Application ID on the confirmation page.</p>
+          <p>Copy and save this ID to check your application status later.</p>
+          <h3>Didn't save your Application ID?</h3>
+          <p>If you submitted your application before Application IDs were displayed, you may not have received one.</p>
+          <p>Please contact MDC through the <a href="mailto:contact@mdctoken.org">official support channel</a> for assistance.</p>
+          <p>Do not submit another application just to obtain a new ID.</p>
+        </div>
+      </details>
       <section id="status-result" class="result" hidden>
         <h3 id="status-title"></h3><p id="status-description"></p>
         <p id="public-reason" hidden></p>
