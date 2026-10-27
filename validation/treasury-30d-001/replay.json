@@ -1,0 +1,367 @@
+{
+  "verifiedAtUtc": "2026-10-27T09:09:02.838Z",
+  "auditId": "MDC-TREASURY-30D-001",
+  "fullAuditStatus": "INCOMPLETE",
+  "snapshot": {
+    "number": "26282915",
+    "tag": "0x1910ba3",
+    "hash": "0x6bd1a95e5cbadf53d2b1ad9a402395d634ae8d45eef5e446c4ece634ec3ded80",
+    "utc": "2026-10-27T08:41:59.000Z",
+    "finality": "FINALIZED_TWO_SOURCE_AGREEMENT"
+  },
+  "checks": [
+    {
+      "code": "READ_ONLY_RPC_METHODS",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Transcript contains only allowlisted read methods; zero signing, wallet authorization or broadcast methods."
+    },
+    {
+      "code": "FINALIZED_HEADER_AGREEMENT",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Both public providers reported the same finalized header and the numbered header remained unchanged at the end of reads. This is RPC agreement, not local consensus verification."
+    },
+    {
+      "code": "MDC_SUPPLY_SNAPSHOT",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "54,000,000 MDC with 18 decimals at the named block, agreed by two sources. Future minting authority is a separate UNVERIFIED control."
+    },
+    {
+      "code": "CODE_AND_BALANCES_TWO_SOURCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Code, ETH balances and MDC balances agree for the token, nine instances and eight Treasury destinations."
+    },
+    {
+      "code": "H1_RUNTIME_MATCH",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current deployed bytes match the frozen public website bytes; canonical source/build authentication remains UNVERIFIED."
+    },
+    {
+      "code": "H1_IMMUTABLE_GETTERS",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Read-only getter values agree with the configured token, Treasury destination and schedule parameters."
+    },
+    {
+      "code": "H1_SCHEDULE_ACCOUNTING",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Getter schedule/accounting matches integer calculations at the snapshot. Equality is not transaction-history reconciliation."
+    },
+    {
+      "code": "H2_RUNTIME_MATCH",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current deployed bytes match the frozen public website bytes; canonical source/build authentication remains UNVERIFIED."
+    },
+    {
+      "code": "H2_IMMUTABLE_GETTERS",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Read-only getter values agree with the configured token, Treasury destination and schedule parameters."
+    },
+    {
+      "code": "H3_RUNTIME_MATCH",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current deployed bytes match the frozen public website bytes; canonical source/build authentication remains UNVERIFIED."
+    },
+    {
+      "code": "H3_IMMUTABLE_GETTERS",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Read-only getter values agree with the configured token, Treasury destination and schedule parameters."
+    },
+    {
+      "code": "H3_SCHEDULE_ACCOUNTING",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Getter schedule/accounting matches integer calculations at the snapshot. Equality is not transaction-history reconciliation."
+    },
+    {
+      "code": "H4_RUNTIME_MATCH",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current deployed bytes match the frozen public website bytes; canonical source/build authentication remains UNVERIFIED."
+    },
+    {
+      "code": "H4_IMMUTABLE_GETTERS",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Read-only getter values agree with the configured token, Treasury destination and schedule parameters."
+    },
+    {
+      "code": "H4_SCHEDULE_ACCOUNTING",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Getter schedule/accounting matches integer calculations at the snapshot. Equality is not transaction-history reconciliation."
+    },
+    {
+      "code": "H5_RUNTIME_MATCH",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current deployed bytes match the frozen public website bytes; canonical source/build authentication remains UNVERIFIED."
+    },
+    {
+      "code": "H5_IMMUTABLE_GETTERS",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Read-only getter values agree with the configured token, Treasury destination and schedule parameters."
+    },
+    {
+      "code": "H5_SCHEDULE_ACCOUNTING",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Getter schedule/accounting matches integer calculations at the snapshot. Equality is not transaction-history reconciliation."
+    },
+    {
+      "code": "H6_RUNTIME_MATCH",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current deployed bytes match the frozen public website bytes; canonical source/build authentication remains UNVERIFIED."
+    },
+    {
+      "code": "H6_IMMUTABLE_GETTERS",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Read-only getter values agree with the configured token, Treasury destination and schedule parameters."
+    },
+    {
+      "code": "H6_SCHEDULE_ACCOUNTING",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Getter schedule/accounting matches integer calculations at the snapshot. Equality is not transaction-history reconciliation."
+    },
+    {
+      "code": "H7_RUNTIME_MATCH",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current deployed bytes match the frozen public website bytes; canonical source/build authentication remains UNVERIFIED."
+    },
+    {
+      "code": "H7_IMMUTABLE_GETTERS",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Read-only getter values agree with the configured token, Treasury destination and schedule parameters."
+    },
+    {
+      "code": "H7_SCHEDULE_ACCOUNTING",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Getter schedule/accounting matches integer calculations at the snapshot. Equality is not transaction-history reconciliation."
+    },
+    {
+      "code": "H8_RUNTIME_MATCH",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current deployed bytes match the frozen public website bytes; canonical source/build authentication remains UNVERIFIED."
+    },
+    {
+      "code": "H8_IMMUTABLE_GETTERS",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Read-only getter values agree with the configured token, Treasury destination and schedule parameters."
+    },
+    {
+      "code": "H8_SCHEDULE_ACCOUNTING",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Getter schedule/accounting matches integer calculations at the snapshot. Equality is not transaction-history reconciliation."
+    },
+    {
+      "code": "H9_RUNTIME_MATCH",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current deployed bytes match the frozen public website bytes; canonical source/build authentication remains UNVERIFIED."
+    },
+    {
+      "code": "H9_IMMUTABLE_GETTERS",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Read-only getter values agree with the configured token, Treasury destination and schedule parameters."
+    },
+    {
+      "code": "H9_SCHEDULE_ACCOUNTING",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Getter schedule/accounting matches integer calculations at the snapshot. Equality is not transaction-history reconciliation."
+    },
+    {
+      "code": "SAFE_0x2F668bC15C710251e8A15C65A73eF87F01A50962_CURRENT_CONFIGURATION",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current owners, threshold, nonce, version, paginated module result, singleton, guard and fallback storage agree across two providers. Key custody and historical changes are not established."
+    },
+    {
+      "code": "SAFE_0x024ed346AF0813435D398a0d46d968157ca5f373_CURRENT_CONFIGURATION",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current owners, threshold, nonce, version, paginated module result, singleton, guard and fallback storage agree across two providers. Key custody and historical changes are not established."
+    },
+    {
+      "code": "SAFE_0x623d3B101c03c5C4B53Efed35D0731DD8Ebb0Ff2_CURRENT_CONFIGURATION",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current owners, threshold, nonce, version, paginated module result, singleton, guard and fallback storage agree across two providers. Key custody and historical changes are not established."
+    },
+    {
+      "code": "SAFE_0x71C082Ac52ABc1bE00A302b8976FB4A9bcF6A093_CURRENT_CONFIGURATION",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current owners, threshold, nonce, version, paginated module result, singleton, guard and fallback storage agree across two providers. Key custody and historical changes are not established."
+    },
+    {
+      "code": "SAFE_0x18D23a56A3deae5c857e9Cc1AA8428DEF74dc6C0_CURRENT_CONFIGURATION",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current owners, threshold, nonce, version, paginated module result, singleton, guard and fallback storage agree across two providers. Key custody and historical changes are not established."
+    },
+    {
+      "code": "SAFE_0x8E991f30F532242335917C4dD6AE85a8f33daec1_CURRENT_CONFIGURATION",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current owners, threshold, nonce, version, paginated module result, singleton, guard and fallback storage agree across two providers. Key custody and historical changes are not established."
+    },
+    {
+      "code": "SAFE_0x0DAe5650cb05FFeCe7C5cE30ed39Fb6D82b21a46_CURRENT_CONFIGURATION",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current owners, threshold, nonce, version, paginated module result, singleton, guard and fallback storage agree across two providers. Key custody and historical changes are not established."
+    },
+    {
+      "code": "SAFE_0xd3C8A2A1efc06964E255250460548853ED9bcf3d_CURRENT_CONFIGURATION",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Current owners, threshold, nonce, version, paginated module result, singleton, guard and fallback storage agree across two providers. Key custody and historical changes are not established."
+    },
+    {
+      "code": "SAFE_UPSTREAM_RUNTIME_HASHES",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Both providers match singleton and fallback-handler runtime hashes to the public Safe v1.4.1 deployment metadata. This is not a Safe implementation security audit."
+    },
+    {
+      "code": "H1_DEPLOYMENT_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced deployment receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H1_FUNDING_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced funding receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H2_DEPLOYMENT_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced deployment receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H2_FUNDING_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced funding receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H3_DEPLOYMENT_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced deployment receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H3_FUNDING_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced funding receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H4_DEPLOYMENT_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced deployment receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H4_FUNDING_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced funding receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H5_DEPLOYMENT_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced deployment receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H5_FUNDING_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced funding receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H6_DEPLOYMENT_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced deployment receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H6_FUNDING_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced funding receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H7_DEPLOYMENT_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced deployment receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H7_FUNDING_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced funding receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H8_DEPLOYMENT_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced deployment receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H8_FUNDING_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced funding receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H9_DEPLOYMENT_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced deployment receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    },
+    {
+      "code": "H9_FUNDING_REFERENCE",
+      "status": "PASS",
+      "severity": "INFORMATIONAL",
+      "detail": "Successful referenced funding receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation."
+    }
+  ],
+  "historyStatus": "INCOMPLETE",
+  "historyCoverageStart": "25920202",
+  "historyCoverageEnd": "26282915",
+  "transfers": [],
+  "limitations": [
+    "MDC approval-event discovery begins at the historical code boundary observed on one source. Other tokens and nonstandard approval mechanisms remain outside this discovery.",
+    "Native ETH internal transfers require traces not supplied by this collector. Historical log completeness has not been cross-checked against a second index.",
+    "This collector does not complete Solidity review, canonical registry/source authentication, all privileged-role discovery, complete historical allowances, independent historical-log reconciliation, liquidity-lock verification or key-management/CI authorization review."
+  ],
+  "sourceDependentControls": "UNVERIFIED",
+  "realTransactionsCreated": 0
+}

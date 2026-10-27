@@ -19,7 +19,7 @@ export function cadence(type,records,now=new Date().toISOString(),anchor=T0){
 }
 export function calendarLabel(c){return c.status==='STALE'?'STALE':c.previousCompleted?'CURRENT':'SCHEDULE ACTIVE';}
 export function utcLabel(value){const date=new Date(value);if(!Number.isFinite(date.getTime()))throw Error('INVALID_UTC_DATE');return date.toISOString().slice(0,16).replace('T',' ')+' UTC';}
-export function publishedCounts(records){const formal=records.filter(r=>r.publicationStatus==='PUBLISHED'&&r.publishedAtUtc);return {audits:formal.filter(r=>CADENCES.includes(r.recordType)).length,releases:formal.filter(r=>r.recordType==='RELEASE_EVENT').length,securityChanges:formal.filter(r=>r.recordType==='TREASURY_SECURITY_CHANGE').length};}
+export function publishedCounts(records){const formal=records.filter(r=>r.publicationStatus==='PUBLISHED'&&r.publishedAtUtc);return {audits:formal.filter(r=>CADENCES.includes(r.recordType)&&r.completeness==='COMPLETE'&&r.snapshot?.finality==='FINALIZED'&&r.completedAtUtc).length,releases:formal.filter(r=>r.recordType==='RELEASE_EVENT').length,securityChanges:formal.filter(r=>r.recordType==='TREASURY_SECURITY_CHANGE').length};}
 export const sha256=async bytes=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('');
 export async function verifyBundle(files,expectedManifestHash){
   const encoder=new TextEncoder(),asBytes=x=>typeof x==='string'?encoder.encode(x):x;

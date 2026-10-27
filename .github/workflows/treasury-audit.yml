@@ -1,0 +1,48 @@
+name: Treasury audit evidence (read only)
+on:
+  push:
+    branches: [audit/treasury-30d-001]
+    paths:
+      - scripts/treasury-audit/collect-mainnet.mjs
+      - scripts/treasury-audit/check-explorer.mjs
+      - .github/workflows/treasury-audit.yml
+permissions:
+  contents: read
+jobs:
+  mainnet-evidence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - name: Install pinned decoding dependency without lifecycle scripts
+        run: npm install --ignore-scripts --no-package-lock --prefix "$RUNNER_TEMP/mdc-audit" viem@2.57.4
+      - name: Collect public Mainnet reads (failure is retained, never relabelled PASS)
+        env:
+          MDC_AUDIT_DEPENDENCY_ROOT: ${{ runner.temp }}/mdc-audit
+        run: node scripts/treasury-audit/collect-mainnet.mjs audit-output
+      - name: Observe public Mainnet explorer verification labels
+        if: always()
+        run: node scripts/treasury-audit/check-explorer.mjs audit-output
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treasury-mainnet-read-evidence
+          path: audit-output/
+          retention-days: 30
+      - name: Export public read evidence through reproducible job logs
+        if: always()
+        run: |
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs';
+          import {gzipSync} from 'node:zlib';
+          import {createHash} from 'node:crypto';
+          for(const name of ['summary.json','rpc-transcript.jsonl','etherscan-status.json']) {
+            if(!fs.existsSync('audit-output/'+name))continue;
+            const bytes=fs.readFileSync('audit-output/'+name),encoded=gzipSync(bytes).toString('base64'),chunks=encoded.match(/.{1,4096}/g);
+            console.log('AUDIT_FILE_SHA256 '+name+' '+createHash('sha256').update(bytes).digest('hex'));
+            chunks.forEach((chunk,i)=>console.log('AUDIT_FILE_CHUNK '+name+' '+i+' '+chunks.length+' '+chunk));
+          }
+          JS
