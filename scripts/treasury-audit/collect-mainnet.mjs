@@ -104,10 +104,11 @@ async function collect() {
  summary.liquidityClaim={source:'Existing public homepage liquidity section; these reads do not establish lock terms.',locker:'0x147AECa171a79466Fe9E2c03f21b45155Ff403F8',transactionHash:'0xe0d22ea9d019a49c736ee4b5bc0457a937df691cc1eb847b8fea6a60de3e0aa8',observations:[]};
  for(const h of headers)summary.liquidityClaim.observations.push({endpoint:h.endpoint,receipt:await observe(h.endpoint,'eth_getTransactionReceipt',[summary.liquidityClaim.transactionHash]),transaction:await observe(h.endpoint,'eth_getTransactionByHash',[summary.liquidityClaim.transactionHash]),lockerCode:await observe(h.endpoint,'eth_getCode',[summary.liquidityClaim.locker,tag])});
  // Historical scanning is bounded and explicitly reports gaps instead of inferring absence.
- const receiptBlocks=summary.vaults.map(x=>x.deploymentReceipt.value?.blockNumber).filter(Boolean).map(quantity);
+ const receiptBlocks=summary.deploymentReferences.filter(x=>x.kind==='deployment').map(x=>x.observations.find(o=>o.receipt.value?.blockNumber)?.receipt.value.blockNumber).filter(Boolean).map(quantity);
+ const historyEndpoint=summary.vaults.some(x=>x.deploymentReceipt.value)?endpoint:(headers[1]?.endpoint??endpoint);
  // Public homepage Genesis block is a claim until historical code reads verify it.
  const genesisClaim=25920202n,genesisTag='0x'+genesisClaim.toString(16),beforeGenesisTag='0x'+(genesisClaim-1n).toString(16);
- const beforeGenesis=await observe(endpoint,'eth_getCode',[CONFIG.token.address,beforeGenesisTag]),atGenesis=await observe(endpoint,'eth_getCode',[CONFIG.token.address,genesisTag]);
+ const beforeGenesis=await observe(historyEndpoint,'eth_getCode',[CONFIG.token.address,beforeGenesisTag]),atGenesis=await observe(historyEndpoint,'eth_getCode',[CONFIG.token.address,genesisTag]);
  summary.tokenCreationBoundary={claimedBlock:genesisClaim.toString(),beforeGenesis,atGenesis,verified:beforeGenesis.value==='0x'&&typeof atGenesis.value==='string'&&atGenesis.value.length>2};
  if(receiptBlocks.length===9||summary.tokenCreationBoundary.verified){
   const start=summary.tokenCreationBoundary.verified?genesisClaim:receiptBlocks.reduce((a,b)=>a<b?a:b),end=quantity(tag),chunks=[];
@@ -117,10 +118,10 @@ async function collect() {
    if(chunks.length>=30){complete=false;summary.limitations.push('Historical scan chunk budget reached.');break;}
    const to=from+49999n<end?from+49999n:end,range={fromBlock:'0x'+from.toString(16),toBlock:'0x'+to.toString(16)};
    const zero='0x'+'0'.repeat(64);
-   const chunk={...range,transfersFrom:await observe(endpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),topics]}]),transfersTo:await observe(endpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),null,topics]}]),mintEvents:await observe(endpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),zero]}]),burnEvents:await observe(endpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),null,zero]}]),approvals:await observe(endpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Approval(address,address,uint256)'),topics]}]),controls:await observe(endpoint,'eth_getLogs',[{...range,address:monitored}])};
+   const chunk={...range,transfersFrom:await observe(historyEndpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),topics]}]),transfersTo:await observe(historyEndpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),null,topics]}]),mintEvents:await observe(historyEndpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),zero]}]),burnEvents:await observe(historyEndpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),null,zero]}]),approvals:await observe(historyEndpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Approval(address,address,uint256)'),topics]}]),controls:await observe(historyEndpoint,'eth_getLogs',[{...range,address:monitored}])};
    chunks.push(chunk);if(Object.values(chunk).some(v=>v?.status==='UNVERIFIED'))complete=false;
   }
-  summary.history={status:complete?'BOUNDED_RANGE_OBSERVED_SINGLE_SOURCE':'INCOMPLETE',coverageStartBlock:start.toString(),coverageEndBlock:end.toString(),chunks};
+  summary.history={status:complete?'BOUNDED_RANGE_OBSERVED_SINGLE_SOURCE':'INCOMPLETE',endpoint:historyEndpoint,coverageStartBlock:start.toString(),coverageEndBlock:end.toString(),chunks};
   const spenders=new Map();
   for(const chunk of chunks)for(const log of chunk.approvals.value??[]){if(log.topics?.length===3){const owner='0x'+log.topics[1].slice(-40),spender='0x'+log.topics[2].slice(-40);spenders.set(owner+spender,{owner,spender});}}
   summary.allowances=[];for(const pair of spenders.values())summary.allowances.push({...pair,value:await call(endpoint,CONFIG.token.address,'allowance',[pair.owner,pair.spender])});
