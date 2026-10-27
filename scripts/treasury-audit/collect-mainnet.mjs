@@ -114,9 +114,9 @@ async function collect() {
   const start=summary.tokenCreationBoundary.verified?genesisClaim:receiptBlocks.reduce((a,b)=>a<b?a:b),end=quantity(tag),chunks=[];
   const monitored=addresses.filter(a=>a!==CONFIG.token.address),topics=monitored.map(a=>'0x'+a.slice(2).toLowerCase().padStart(64,'0'));
   let complete=true;
-  for(let from=start;from<=end;from+=50000n){
-   if(chunks.length>=30){complete=false;summary.limitations.push('Historical scan chunk budget reached.');break;}
-   const to=from+49999n<end?from+49999n:end,range={fromBlock:'0x'+from.toString(16),toBlock:'0x'+to.toString(16)};
+  for(let from=start;from<=end;from+=10000n){
+   if(chunks.length>=60){complete=false;summary.limitations.push('Historical scan chunk budget reached.');break;}
+   const to=from+9999n<end?from+9999n:end,range={fromBlock:'0x'+from.toString(16),toBlock:'0x'+to.toString(16)};
    const zero='0x'+'0'.repeat(64);
    const chunk={...range,transfersFrom:await observe(historyEndpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),topics]}]),transfersTo:await observe(historyEndpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),null,topics]}]),mintEvents:await observe(historyEndpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),zero]}]),burnEvents:await observe(historyEndpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),null,zero]}]),approvals:await observe(historyEndpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Approval(address,address,uint256)'),topics]}]),controls:await observe(historyEndpoint,'eth_getLogs',[{...range,address:monitored}])};
    chunks.push(chunk);if(Object.values(chunk).some(v=>v?.status==='UNVERIFIED'))complete=false;
