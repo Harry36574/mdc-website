@@ -94,24 +94,38 @@ async function collect() {
   const other=headers[1].endpoint;
   summary.crossChecks={totalSupply:await call(other,CONFIG.token.address,'totalSupply'),decimals:await call(other,CONFIG.token.address,'decimals'),addresses:[]};
   for(const address of addresses)summary.crossChecks.addresses.push({address,code:await observe(other,'eth_getCode',[address,tag]),ethBalance:await observe(other,'eth_getBalance',[address,tag]),mdcBalance:await call(other,CONFIG.token.address,'balanceOf',[address])});
+  summary.crossChecks.treasuryConfigurations=[];
+  for(const treasury of summary.treasuries){const t={address:treasury.address,configuration:{},proxySlotProbes:{}};for(const name of ['getOwners','getThreshold','nonce','VERSION'])t.configuration[name]=await call(other,treasury.address,name);t.configuration.modules=await call(other,treasury.address,'getModulesPaginated',['0x0000000000000000000000000000000000000001',100n]);for(const [name,slot]of Object.entries({singleton:'0x0',guard:keccak256(Buffer.from('guard_manager.guard.address')),fallbackHandler:keccak256(Buffer.from('fallback_manager.handler.address'))}))t.proxySlotProbes[name]=await observe(other,'eth_getStorageAt',[treasury.address,slot,tag]);summary.crossChecks.treasuryConfigurations.push(t);}
  }
+ summary.upstreamSafeCode=[];
+ for(const address of ['0x41675C099F32341bf84BFc5382aF534df5C7461a','0xfd0732Dc9E303f09fCEf3a7388Ad10A83459Ec99'])for(const h of headers){const code=await observe(h.endpoint,'eth_getCode',[address,tag]);if(code.value&&/^0x(?:[a-f0-9]{2})+$/i.test(code.value))code.keccak256=keccak256(code.value);summary.upstreamSafeCode.push({address,endpoint:h.endpoint,code});}
+ summary.deploymentReferences=[];
+ for(const instance of CONFIG.instances)for(const [kind,hash]of Object.entries({deployment:instance.deploymentTx,funding:instance.fundingTx})){const evidence={id:instance.id,kind,hash,observations:[]};for(const h of headers)evidence.observations.push({endpoint:h.endpoint,receipt:await observe(h.endpoint,'eth_getTransactionReceipt',[hash]),transaction:await observe(h.endpoint,'eth_getTransactionByHash',[hash])});summary.deploymentReferences.push(evidence);}
+ summary.liquidityClaim={source:'Existing public homepage liquidity section; these reads do not establish lock terms.',locker:'0x147AECa171a79466Fe9E2c03f21b45155Ff403F8',transactionHash:'0xe0d22ea9d019a49c736ee4b5bc0457a937df691cc1eb847b8fea6a60de3e0aa8',observations:[]};
+ for(const h of headers)summary.liquidityClaim.observations.push({endpoint:h.endpoint,receipt:await observe(h.endpoint,'eth_getTransactionReceipt',[summary.liquidityClaim.transactionHash]),transaction:await observe(h.endpoint,'eth_getTransactionByHash',[summary.liquidityClaim.transactionHash]),lockerCode:await observe(h.endpoint,'eth_getCode',[summary.liquidityClaim.locker,tag])});
  // Historical scanning is bounded and explicitly reports gaps instead of inferring absence.
  const receiptBlocks=summary.vaults.map(x=>x.deploymentReceipt.value?.blockNumber).filter(Boolean).map(quantity);
- if(receiptBlocks.length===9){
-  const start=receiptBlocks.reduce((a,b)=>a<b?a:b),end=quantity(tag),chunks=[];
+ // Public homepage Genesis block is a claim until historical code reads verify it.
+ const genesisClaim=25920202n,genesisTag='0x'+genesisClaim.toString(16),beforeGenesisTag='0x'+(genesisClaim-1n).toString(16);
+ const beforeGenesis=await observe(endpoint,'eth_getCode',[CONFIG.token.address,beforeGenesisTag]),atGenesis=await observe(endpoint,'eth_getCode',[CONFIG.token.address,genesisTag]);
+ summary.tokenCreationBoundary={claimedBlock:genesisClaim.toString(),beforeGenesis,atGenesis,verified:beforeGenesis.value==='0x'&&typeof atGenesis.value==='string'&&atGenesis.value.length>2};
+ if(receiptBlocks.length===9||summary.tokenCreationBoundary.verified){
+  const start=summary.tokenCreationBoundary.verified?genesisClaim:receiptBlocks.reduce((a,b)=>a<b?a:b),end=quantity(tag),chunks=[];
   const monitored=addresses.filter(a=>a!==CONFIG.token.address),topics=monitored.map(a=>'0x'+a.slice(2).toLowerCase().padStart(64,'0'));
   let complete=true;
   for(let from=start;from<=end;from+=50000n){
    if(chunks.length>=30){complete=false;summary.limitations.push('Historical scan chunk budget reached.');break;}
    const to=from+49999n<end?from+49999n:end,range={fromBlock:'0x'+from.toString(16),toBlock:'0x'+to.toString(16)};
-   const chunk={...range,transfersFrom:await observe(endpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),topics]}]),transfersTo:await observe(endpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),null,topics]}]),approvals:await observe(endpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Approval(address,address,uint256)'),topics]}]),controls:await observe(endpoint,'eth_getLogs',[{...range,address:monitored}])};
+   const zero='0x'+'0'.repeat(64);
+   const chunk={...range,transfersFrom:await observe(endpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),topics]}]),transfersTo:await observe(endpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),null,topics]}]),mintEvents:await observe(endpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),zero]}]),burnEvents:await observe(endpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),null,zero]}]),approvals:await observe(endpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Approval(address,address,uint256)'),topics]}]),controls:await observe(endpoint,'eth_getLogs',[{...range,address:monitored}])};
    chunks.push(chunk);if(Object.values(chunk).some(v=>v?.status==='UNVERIFIED'))complete=false;
   }
   summary.history={status:complete?'BOUNDED_RANGE_OBSERVED_SINGLE_SOURCE':'INCOMPLETE',coverageStartBlock:start.toString(),coverageEndBlock:end.toString(),chunks};
   const spenders=new Map();
   for(const chunk of chunks)for(const log of chunk.approvals.value??[]){if(log.topics?.length===3){const owner='0x'+log.topics[1].slice(-40),spender='0x'+log.topics[2].slice(-40);spenders.set(owner+spender,{owner,spender});}}
   summary.allowances=[];for(const pair of spenders.values())summary.allowances.push({...pair,value:await call(endpoint,CONFIG.token.address,'allowance',[pair.owner,pair.spender])});
-  summary.limitations.push('Approval events before the earliest recorded vault deployment are not covered; zero discovered spenders does not establish zero allowances. Native ETH internal transfers require traces not supplied by this collector.');
+  summary.limitations.push(summary.tokenCreationBoundary.verified?'MDC approval-event discovery begins at the historical code boundary observed on one source. Other tokens and nonstandard approval mechanisms remain outside this discovery.':'Approval events before the earliest recorded vault deployment are not covered; zero discovered spenders does not establish zero allowances.');
+  summary.limitations.push('Native ETH internal transfers require traces not supplied by this collector. Historical log completeness has not been cross-checked against a second index.');
  }
  const recheck=await observe(endpoint,'eth_getBlockByNumber',[tag,false]);summary.endOfReadHeader=recheck;
  if(recheck.value?.hash!==summary.snapshot.hash)summary.limitations.push('Snapshot recheck failed; no chain state may be accepted as verified.');

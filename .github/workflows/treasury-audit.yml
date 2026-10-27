@@ -4,6 +4,7 @@ on:
     branches: [audit/treasury-30d-001]
     paths:
       - scripts/treasury-audit/collect-mainnet.mjs
+      - scripts/treasury-audit/check-explorer.mjs
       - .github/workflows/treasury-audit.yml
 permissions:
   contents: read
@@ -22,6 +23,9 @@ jobs:
         env:
           MDC_AUDIT_DEPENDENCY_ROOT: ${{ runner.temp }}/mdc-audit
         run: node scripts/treasury-audit/collect-mainnet.mjs audit-output
+      - name: Observe public Mainnet explorer verification labels
+        if: always()
+        run: node scripts/treasury-audit/check-explorer.mjs audit-output
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -35,7 +39,7 @@ jobs:
           import fs from 'node:fs';
           import {gzipSync} from 'node:zlib';
           import {createHash} from 'node:crypto';
-          for(const name of ['summary.json','rpc-transcript.jsonl']) {
+          for(const name of ['summary.json','rpc-transcript.jsonl','etherscan-status.json']) {
             if(!fs.existsSync('audit-output/'+name))continue;
             const bytes=fs.readFileSync('audit-output/'+name),encoded=gzipSync(bytes).toString('base64'),chunks=encoded.match(/.{1,4096}/g);
             console.log('AUDIT_FILE_SHA256 '+name+' '+createHash('sha256').update(bytes).digest('hex'));
