@@ -2,7 +2,7 @@
 import pathlib,sys
 source=pathlib.Path(__file__).resolve().parents[2]
 built=pathlib.Path(sys.argv[1]).resolve()
-files=[source/p for p in ['transparency/history.html','transparency/history/app.mjs','transparency/history/core.mjs','transparency/history/index.json','CNAME']]
+files=[source/p for p in ['transparency/history.html','transparency/history/app.mjs','transparency/history/core.mjs','transparency/history/index.json']]
 files+=list((source/'transparency/history/records/2026/mdc-treasury-30d-001').rglob('*'))
 count=0
 for p in files:

@@ -1,0 +1,21 @@
+{
+  "initialHarnessIssues": [
+    {
+      "scope": "local unit-test fixture",
+      "result": "FAIL",
+      "cause": "String supplied to a byte-only SHA-256 helper",
+      "resolution": "Fixture now encodes text as UTF-8; 6 unit checks pass.",
+      "contractFinding": false
+    },
+    {
+      "scope": "first actual Pages artifact validation",
+      "runId": 40479279929,
+      "jobId": 122105214894,
+      "result": "FAIL",
+      "cause": "Validator expected CNAME in Jekyll output; Pages handles CNAME as source deployment metadata.",
+      "resolution": "Validate unchanged CNAME via source blob checks, and compare hash-sensitive served archive files separately.",
+      "contractFinding": false
+    }
+  ],
+  "fullAuditStatus": "INCOMPLETE"
+}
