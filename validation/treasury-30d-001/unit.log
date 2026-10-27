@@ -1,0 +1,14 @@
+✔ unpublished/incomplete attempts cannot satisfy or advance the overdue interval (1.339253ms)
+✔ even a published incomplete observation does not increment Published audits (0.110724ms)
+✔ completed maintenance uses the fixed baseline and does not shift to completion plus 30 days (0.08065ms)
+✔ audit attempts never increment release or security-change counters (0.444919ms)
+✔ bundle integrity rejects every changed report, record, evidence and manifest (6.056317ms)
+✔ archive path cannot traverse or substitute a different record id (0.232004ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15.639367

@@ -1,0 +1,85 @@
+{
+  "scope": "Website/tooling syntax only; not Solidity static analysis",
+  "checked": [
+    {
+      "file": "transparency/app.mjs",
+      "check": "node --check",
+      "status": "PASS"
+    },
+    {
+      "file": "transparency/config.mjs",
+      "check": "node --check",
+      "status": "PASS"
+    },
+    {
+      "file": "transparency/core.mjs",
+      "check": "node --check",
+      "status": "PASS"
+    },
+    {
+      "file": "transparency/history/app.mjs",
+      "check": "node --check",
+      "status": "PASS"
+    },
+    {
+      "file": "transparency/history/core.mjs",
+      "check": "node --check",
+      "status": "PASS"
+    },
+    {
+      "file": "scripts/treasury-audit/check-explorer.mjs",
+      "check": "node --check",
+      "status": "PASS"
+    },
+    {
+      "file": "scripts/treasury-audit/collect-mainnet.mjs",
+      "check": "node --check",
+      "status": "PASS"
+    },
+    {
+      "file": "scripts/treasury-audit/prepare-preliminary.py",
+      "check": "Python AST parse",
+      "status": "PASS"
+    },
+    {
+      "file": "scripts/treasury-audit/run-check.py",
+      "check": "Python AST parse",
+      "status": "PASS"
+    },
+    {
+      "file": "scripts/treasury-audit/static-review.mjs",
+      "check": "node --check",
+      "status": "PASS"
+    },
+    {
+      "file": "scripts/treasury-audit/syntax-check.py",
+      "check": "Python AST parse",
+      "status": "PASS"
+    },
+    {
+      "file": "scripts/treasury-audit/validate-built-site.py",
+      "check": "Python AST parse",
+      "status": "PASS"
+    },
+    {
+      "file": "scripts/treasury-audit/validate-package.py",
+      "check": "Python AST parse",
+      "status": "PASS"
+    },
+    {
+      "file": "scripts/treasury-audit/verify-observations.mjs",
+      "check": "node --check",
+      "status": "PASS"
+    },
+    {
+      "file": "test/treasury-audit/browser.mjs",
+      "check": "node --check",
+      "status": "PASS"
+    },
+    {
+      "file": "test/treasury-audit/history.test.mjs",
+      "check": "node --check",
+      "status": "PASS"
+    }
+  ]
+}

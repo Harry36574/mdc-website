@@ -1,0 +1,39 @@
+// Replay stored RPC observations. PASS applies only to the explicitly named check.
+import fs from 'node:fs';
+import path from 'node:path';
+import { createRequire } from 'node:module';
+import { CONFIG } from '../../transparency/config.mjs';
+import { eligible, releaseAmounts } from '../../transparency/core.mjs';
+const require=createRequire(process.env.MDC_AUDIT_DEPENDENCY_ROOT?path.resolve(process.env.MDC_AUDIT_DEPENDENCY_ROOT,'package.json'):import.meta.url);
+const {keccak256,toEventSelector}=require('viem');
+const input=path.resolve(process.argv[2]),output=process.argv[3];
+const s=JSON.parse(fs.readFileSync(path.join(input,'summary.json'))),transcript=fs.readFileSync(path.join(input,'rpc-transcript.jsonl'),'utf8').trim().split('\n').map(JSON.parse);
+const checks=[];function check(code,ok,detail,severity='INFORMATIONAL'){checks.push({code,status:ok?'PASS':'FAIL',severity,detail});}
+const same=(a,b)=>String(a).toLowerCase()===String(b).toLowerCase(),eq=(a,b)=>JSON.stringify(a,(_,v)=>typeof v==='string'?v.toLowerCase():v)===JSON.stringify(b,(_,v)=>typeof v==='string'?v.toLowerCase():v);
+const get=x=>x?.status!=='UNVERIFIED'?x?.decoded:undefined;
+check('READ_ONLY_RPC_METHODS',transcript.every(x=>['eth_chainId','eth_getBlockByNumber','eth_getCode','eth_getBalance','eth_call','eth_getStorageAt','eth_getTransactionReceipt','eth_getTransactionByHash','eth_getLogs'].includes(x.request.method)),'Transcript contains only allowlisted read methods; zero signing, wallet authorization or broadcast methods.');
+check('FINALIZED_HEADER_AGREEMENT',s.snapshot?.finality==='FINALIZED_TWO_SOURCE_AGREEMENT'&&s.endpoints.length===2&&s.endpoints.every(x=>x.number===s.snapshot.number&&x.hash===s.snapshot.hash)&&s.endOfReadHeader.value?.hash===s.snapshot.hash,'Both public providers reported the same finalized header and the numbered header remained unchanged at the end of reads. This is RPC agreement, not local consensus verification.');
+check('MDC_SUPPLY_SNAPSHOT',get(s.token.totalSupply)==='54000000000000000000000000'&&get(s.crossChecks?.totalSupply)===get(s.token.totalSupply)&&get(s.token.decimals)===18&&get(s.crossChecks?.decimals)===18,'54,000,000 MDC with 18 decimals at the named block, agreed by two sources. Future minting authority is a separate UNVERIFIED control.');
+const primary=[s.token,...s.vaults,...s.treasuries];
+check('CODE_AND_BALANCES_TWO_SOURCE',primary.length===18&&primary.every(x=>{const c=s.crossChecks.addresses.find(a=>same(a.address,x.address));return c&&[x.code,x.ethBalance,x.mdcBalance,c.code,c.ethBalance,c.mdcBalance].every(o=>o?.status==='OBSERVED_SINGLE_SOURCE'&&typeof o.value==='string')&&eq(c.code.value,x.code.value)&&eq(c.ethBalance.value,x.ethBalance.value)&&eq(c.mdcBalance.value,x.mdcBalance.value);}), 'Code, ETH balances and MDC balances agree for the token, nine instances and eight Treasury destinations.');
+for(const instance of CONFIG.instances){const v=s.vaults.find(x=>x.id===instance.id);
+ check(instance.id+'_RUNTIME_MATCH',v?.code.value&&keccak256(v.code.value)===instance.runtimeHash,'Current deployed bytes match the frozen public website bytes; canonical source/build authentication remains UNVERIFIED.');
+ check(instance.id+'_IMMUTABLE_GETTERS',Object.entries(instance.expected).every(([name,expected])=>{const raw=v.getters[name]?.value;if(v.getters[name]?.status!=='OBSERVED_SINGLE_SOURCE'||typeof raw!=='string')return false;return ['token','treasury'].includes(name)?same('0x'+raw.slice(-40),expected):BigInt(raw)===BigInt(expected);}), 'Read-only getter values agree with the configured token, Treasury destination and schedule parameters.');
+ const timestamp=BigInt(Date.parse(s.snapshot.utc)/1000),balance=BigInt(get(v.mdcBalance));
+ if(instance.id!=='H2'){const g=v.getters,released=BigInt(g.totalReleased.value),c=eligible(instance,timestamp),r=releaseAmounts(c,released,balance);check(instance.id+'_SCHEDULE_ACCOUNTING',BigInt(g.cumulativeEligible.value)===c&&BigInt(g.releasable.value)===r.releasable&&BigInt(g.availableToReleaseNow.value)===r.availableToReleaseNow&&balance+released===BigInt(instance.expected.allocation),'Getter schedule/accounting matches integer calculations at the snapshot. Equality is not transaction-history reconciliation.');}
+}
+for(const t of s.treasuries){const other=s.crossChecks.treasuryConfigurations.find(x=>same(x.address,t.address));check('SAFE_'+t.address+'_CURRENT_CONFIGURATION',other&&[...Object.values(t.configuration),...Object.values(other.configuration),...Object.values(t.proxySlotProbes),...Object.values(other.proxySlotProbes)].every(o=>o?.status==='OBSERVED_SINGLE_SOURCE'&&typeof o.value==='string')&&eq(t.configuration,other.configuration)&&eq(t.proxySlotProbes,other.proxySlotProbes),'Current owners, threshold, nonce, version, paginated module result, singleton, guard and fallback storage agree across two providers. Key custody and historical changes are not established.');}
+const upstream={'0x41675c099f32341bf84bfc5382af534df5c7461a':'0x1fe2df852ba3299d6534ef416eefa406e56ced995bca886ab7a553e6d0c5e1c4','0xfd0732dc9e303f09fcef3a7388ad10a83459ec99':'0x7c6007a5d711cea8dfd5d91f5940ec29c7f200fe511eb1fc1397b367af3c42f9'};
+check('SAFE_UPSTREAM_RUNTIME_HASHES',s.upstreamSafeCode.length===4&&s.upstreamSafeCode.every(x=>x.code.keccak256===upstream[x.address.toLowerCase()]),'Both providers match singleton and fallback-handler runtime hashes to the public Safe v1.4.1 deployment metadata. This is not a Safe implementation security audit.');
+const transfer=toEventSelector('Transfer(address,address,uint256)');
+for(const reference of s.deploymentReferences){const instance=CONFIG.instances.find(x=>x.id===reference.id),observation=reference.observations.find(x=>x.receipt.value&&x.transaction.value),receipt=observation?.receipt.value,tx=observation?.transaction.value;
+ const ok=receipt?.status==='0x1'&&BigInt(receipt.blockNumber)<=BigInt(s.snapshot.number)&&same(receipt.transactionHash,reference.hash)&&same(tx.hash,reference.hash)&&(reference.kind==='deployment'?same(receipt.contractAddress,instance.address)&&tx.to===null:receipt.logs.some(l=>same(l.address,CONFIG.token.address)&&same(l.topics?.[0],transfer)&&same('0x'+l.topics?.[2]?.slice(-40),instance.address)&&BigInt(l.data)===BigInt(instance.expected.allocation??instance.expected.expectedLockedAmount)));
+ check(reference.id+'_'+reference.kind.toUpperCase()+'_REFERENCE',ok,'Successful referenced '+reference.kind+' receipt/transaction recovered from at least one public provider and checked against the expected instance/transfer. First-provider receipt omissions are retained as a limitation.');
+}
+const allLogs=s.history.chunks?.flatMap(c=>Object.values(c).filter(x=>x&&typeof x==='object'&&Array.isArray(x.value)).flatMap(x=>x.value))??[];
+const unique=[...new Map(allLogs.map(l=>[l.transactionHash+':'+l.logIndex,l])).values()];
+const transfers=unique.filter(l=>same(l.address,CONFIG.token.address)&&same(l.topics?.[0],transfer)).map(l=>({hash:l.transactionHash,block:BigInt(l.blockNumber).toString(),logIndex:BigInt(l.logIndex).toString(),from:'0x'+l.topics[1].slice(-40),to:'0x'+l.topics[2].slice(-40),amount:BigInt(l.data).toString()}));
+const result={verifiedAtUtc:new Date().toISOString(),auditId:'MDC-TREASURY-30D-001',fullAuditStatus:'INCOMPLETE',snapshot:s.snapshot,checks,historyStatus:s.history.status,historyCoverageStart:s.history.coverageStartBlock??null,historyCoverageEnd:s.history.coverageEndBlock??null,transfers,limitations:s.limitations,sourceDependentControls:'UNVERIFIED',realTransactionsCreated:0};
+if(output)fs.writeFileSync(path.resolve(output),JSON.stringify(result,null,2)+'\n');
+console.log(JSON.stringify({checks:checks.length,passed:checks.filter(x=>x.status==='PASS').length,failed:checks.filter(x=>x.status==='FAIL'),historyStatus:s.history.status,transferEvents:transfers.length,fullAuditStatus:'INCOMPLETE'},null,2));
+process.exitCode=checks.some(x=>x.status==='FAIL')?1:0;

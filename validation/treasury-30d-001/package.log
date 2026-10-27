@@ -1,0 +1,1 @@
+{"package": "MDC-TREASURY-30D-001", "status": "INCOMPLETE", "schemaValidation": "PASS", "hashChainValidation": "PASS", "rawFiles": 9, "readOnlyRpcRequests": 886, "observationChecksPassed": 57, "publicCountersPreserved": true, "unrelatedBaselineFilesPreserved": true, "completedAtUtc": null, "publishedAtUtc": null}

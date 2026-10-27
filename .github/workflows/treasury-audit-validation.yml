@@ -1,0 +1,61 @@
+name: Preliminary Treasury audit package validation (no deployment)
+on:
+  push:
+    branches: [audit/treasury-30d-001]
+permissions:
+  contents: read
+jobs:
+  validate-package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - name: Install pinned validation dependencies without lifecycle scripts
+        run: |
+          npm install --ignore-scripts --no-package-lock --prefix "$RUNNER_TEMP/mdc-audit" viem@2.57.4 playwright@1.62.1
+          python3 -m venv "$RUNNER_TEMP/mdc-audit-python"
+          "$RUNNER_TEMP/mdc-audit-python/bin/pip" install jsonschema==4.26.0
+      - name: Unit checks for schedule, counters and integrity
+        run: python3 scripts/treasury-audit/run-check.py unit validation-run node --test --test-isolation=none test/treasury-audit/history.test.mjs
+      - name: Schema, evidence hash chain and preserved-source checks
+        run: python3 scripts/treasury-audit/run-check.py package validation-run "$RUNNER_TEMP/mdc-audit-python/bin/python" scripts/treasury-audit/validate-package.py
+      - name: Replay stored real Mainnet evidence without network calls
+        env:
+          MDC_AUDIT_DEPENDENCY_ROOT: ${{ runner.temp }}/mdc-audit
+        run: |
+          mkdir -p "$RUNNER_TEMP/mdc-audit-replay"
+          gzip -dc transparency/history/records/2026/mdc-treasury-30d-001/raw/mainnet-summary.json.gz > "$RUNNER_TEMP/mdc-audit-replay/summary.json"
+          gzip -dc transparency/history/records/2026/mdc-treasury-30d-001/raw/rpc-transcript.jsonl.gz > "$RUNNER_TEMP/mdc-audit-replay/rpc-transcript.jsonl"
+          python3 scripts/treasury-audit/run-check.py replay validation-run node scripts/treasury-audit/verify-observations.mjs "$RUNNER_TEMP/mdc-audit-replay" validation-run/replay.json
+      - name: Build using GitHub Pages Jekyll (build only)
+        uses: actions/jekyll-build-pages@44a6e6beabd48582f863aeeb6cb2151cc1716697
+        with:
+          source: ./
+          destination: ./_site
+      - name: Verify the Pages build preserves archive hashes and download paths
+        run: python3 scripts/treasury-audit/run-check.py built-archive validation-run python3 scripts/treasury-audit/validate-built-site.py _site
+      - name: Test built website in Chromium with all requests intercepted
+        env:
+          MDC_AUDIT_DEPENDENCY_ROOT: ${{ runner.temp }}/mdc-audit
+          MDC_AUDIT_SITE_ROOT: _site
+          MDC_AUDIT_BROWSER_OUT: validation-run/browser
+        run: |
+          if command -v google-chrome >/dev/null 2>&1; then
+            MDC_AUDIT_BROWSER_PATH=$(command -v google-chrome)
+          elif command -v google-chrome-stable >/dev/null 2>&1; then
+            MDC_AUDIT_BROWSER_PATH=$(command -v google-chrome-stable)
+          else
+            "$RUNNER_TEMP/mdc-audit/node_modules/.bin/playwright" install --with-deps chromium
+            MDC_AUDIT_BROWSER_PATH=$(node -e "process.stdout.write(require(process.env.MDC_AUDIT_DEPENDENCY_ROOT+'/node_modules/playwright').chromium.executablePath())")
+          fi
+          export MDC_AUDIT_BROWSER_PATH
+          python3 scripts/treasury-audit/run-check.py browser validation-run node test/treasury-audit/browser.mjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: preliminary-treasury-audit-validation
+          path: validation-run/
+          retention-days: 30

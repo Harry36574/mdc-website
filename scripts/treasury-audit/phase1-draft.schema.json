@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MDC Phase 1 preliminary record — provisional consumer-compatible schema, not the unavailable canonical contract-project schema",
+  "type": "object",
+  "required": ["schemaVersion", "auditId", "recordId", "recordType", "scheduledAtUtc", "attemptedAtUtc", "completedAtUtc", "publishedAtUtc", "publicationStatus", "completeness", "finalStatus", "snapshot", "rpcSources", "findings", "data", "unknownReasons", "mandatoryProcedures"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "auditId": {"const": "MDC-TREASURY-30D-001"},
+    "recordId": {"const": "mdc-treasury-30d-001"},
+    "recordType": {"const": "AUDIT_30D"},
+    "scheduledAtUtc": {"const": "2026-10-21T00:00:00Z"},
+    "attemptedAtUtc": {"type": "string", "format": "date-time"},
+    "completedAtUtc": {"type": "null"},
+    "publishedAtUtc": {"type": "null"},
+    "publicationStatus": {"const": "DRAFT"},
+    "completeness": {"const": "INCOMPLETE"},
+    "finalStatus": {"const": "INCOMPLETE"},
+    "snapshot": {
+      "type": "object", "required": ["number", "hash", "utc", "finality"],
+      "properties": {"number": {"type": "string", "pattern": "^[0-9]+$"}, "hash": {"type": "string", "pattern": "^0x[0-9a-f]{64}$"}, "utc": {"type": "string", "format": "date-time"}, "finality": {"const": "FINALIZED"}}
+    },
+    "rpcSources": {"type": "array", "minItems": 2},
+    "findings": {"type": "array", "items": {"type": "object", "required": ["code", "status", "severity", "detail", "remediation"], "properties": {"status": {"enum": ["PASS", "FAIL", "WARNING", "UNVERIFIED", "NOT APPLICABLE"]}}}},
+    "mandatoryProcedures": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["procedure", "status", "evidence"], "properties": {"status": {"enum": ["PASS", "FAIL", "WARNING", "UNVERIFIED", "NOT APPLICABLE"]}}}},
+    "data": {"type": "object", "required": ["token", "instances", "treasuries", "accounting"], "properties": {"instances": {"type": "array", "minItems": 9, "maxItems": 9}, "treasuries": {"type": "array", "minItems": 8, "maxItems": 8}}},
+    "unknownReasons": {"type": "object"}
+  }
+}

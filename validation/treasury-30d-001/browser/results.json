@@ -1,0 +1,52 @@
+{
+  "executedAtUtc": "2026-10-27T09:07:04.336Z",
+  "results": [
+    {
+      "name": "incomplete-real-evidence-keeps-counters-and-overdue-390",
+      "status": "PASS"
+    },
+    {
+      "name": "incomplete-real-evidence-keeps-counters-and-overdue-1280",
+      "status": "PASS"
+    },
+    {
+      "name": "tampered-record.json-fails-closed",
+      "status": "PASS"
+    },
+    {
+      "name": "tampered-report.md-fails-closed",
+      "status": "PASS"
+    },
+    {
+      "name": "tampered-evidence.json-fails-closed",
+      "status": "PASS"
+    },
+    {
+      "name": "tampered-manifest.json-fails-closed",
+      "status": "PASS"
+    },
+    {
+      "name": "rehashed-published-draft-cannot-claim-completion",
+      "status": "PASS"
+    },
+    {
+      "name": "rehashed-complete-draft-cannot-claim-completion",
+      "status": "PASS"
+    },
+    {
+      "name": "malformed-draft-index-fails-closed",
+      "status": "PASS"
+    },
+    {
+      "name": "read-only-no-external-requests-script-errors-or-csp-violations",
+      "status": "PASS"
+    }
+  ],
+  "unexpected": [],
+  "pageErrors": [],
+  "csp": [],
+  "scope": "Intercepted website rendering and integrity checks only. Not a Mainnet test or a contract security PASS.",
+  "realWalletRequests": 0,
+  "signatures": 0,
+  "broadcasts": 0
+}

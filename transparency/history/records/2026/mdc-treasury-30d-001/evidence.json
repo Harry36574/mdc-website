@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "1.0",
+  "auditId": "MDC-TREASURY-30D-001",
+  "preparedAtUtc": "2026-10-27T09:03:30Z",
+  "status": "INCOMPLETE",
+  "reviewedRepository": "Harry36574/mdc-website",
+  "reviewedCommit": "92af13e7d57fd592f580eb126c8f5a715bffc43b",
+  "historyFrameworkBaseline": "60cccef4a67f9082feb45518dd1373d81b62487a",
+  "sourceUnavailableConfirmedByOwner": true,
+  "acceptedCollection": {
+    "runId": 40476961173,
+    "jobId": 122097448360,
+    "sourceCommit": "364cbd874401584f683a186263f81e7cc62f13f8"
+  },
+  "earlierReadAttempts": [
+    {
+      "runId": 40474691541,
+      "scope": "Initial current-state collection, historical coverage absent"
+    },
+    {
+      "runId": 40475033831,
+      "scope": "Lossless evidence export"
+    },
+    {
+      "runId": 40475681427,
+      "scope": "Receipt recovery and explorer HTTP 403 observations"
+    },
+    {
+      "runId": 40476007197,
+      "scope": "Historic range requests rejected by provider limit"
+    },
+    {
+      "runId": 40476376230,
+      "scope": "10000-block ranges still rejected; retained in CI logs"
+    }
+  ],
+  "rpcObservationCount": 886,
+  "offlineVerifiedChecks": {
+    "pass": 57,
+    "fail": 0,
+    "meaning": "Only the individual observation checks; full audit remains INCOMPLETE."
+  },
+  "files": [
+    {
+      "path": "raw/mainnet-summary.json.gz",
+      "encoding": "gzip",
+      "sha256": "878a40deebc4e862886fcf7a0265ccdd27dbca12d32f3e89c68f4b651977e640",
+      "decodedSha256": "2f43c4d238c2b9b168ff79088ac3023b4be6c57c598ca5b6900b21074ba3052b",
+      "decodedBytes": 714631
+    },
+    {
+      "path": "raw/rpc-transcript.jsonl.gz",
+      "encoding": "gzip",
+      "sha256": "40aa3c3981d842812df006f6ae633f3403847fbdd8bdf2e215f839d8d846698a",
+      "decodedSha256": "264696804ace8efa7a3d95c3bcab61509b6f44b81499d466db1d2d495e0ac9c2",
+      "decodedBytes": 1447352
+    },
+    {
+      "path": "raw/etherscan-status.json.gz",
+      "encoding": "gzip",
+      "sha256": "d06a607663a51c568be05818e3dc7425e2789e6afc4067b126ff1007a017824c",
+      "decodedSha256": "e2a5e3f24aea7f60937a35181b97a48a71128bb43212465c9d05efe0c8d2afd6",
+      "decodedBytes": 6003
+    },
+    {
+      "path": "raw/verification.json.gz",
+      "encoding": "gzip",
+      "sha256": "70870b52d1f340f7275fdf3cfd50d8c7bb5a3639d550826ca1ced6bb3d4d9c61",
+      "decodedSha256": "89ecfe4b1b3222aaba6382a467f22f45a55ee84c3f632c91cff2374d010131ea",
+      "decodedBytes": 17945
+    },
+    {
+      "path": "raw/static-review.json.gz",
+      "encoding": "gzip",
+      "sha256": "0cc0c2b855252e92a653d9688d5bd4d512d0bef897ebf226dd1a818080af6a2b",
+      "decodedSha256": "dab5498ed88776aaac72ad804935f83b84a9076d2ef6b7e52440ab9363f3b19b",
+      "decodedBytes": 16772
+    },
+    {
+      "path": "raw/discovery.json.gz",
+      "encoding": "gzip",
+      "sha256": "50cd45b747c4adeeaea03fc568e4476505e18be40abe0e68665433b6f81c26b6",
+      "decodedSha256": "70b44fd8af6ad7c1ad01b1b5bb3e5d42253cf426c82e9471fe2717a6182810f3",
+      "decodedBytes": 6907
+    },
+    {
+      "path": "raw/local-rpc-probe.json.gz",
+      "encoding": "gzip",
+      "sha256": "b08322a893054c50a9b899d1f70dea32d60ef6c4da46f0e3a43e8b93589e894f",
+      "decodedSha256": "d63ba15881e858ab5f3b3fc9543cd761bd088b60eb67da4453f6915a7352f460",
+      "decodedBytes": 660
+    },
+    {
+      "path": "raw/safe-v1.4.1-deployment.json.gz",
+      "encoding": "gzip",
+      "sha256": "57dd5c0c49be1554fd15ca90c27de0a8366e7125869908caf35290d2d93cfb46",
+      "decodedSha256": "e3a7cf9a3867aaf3a471bc4671a0b4331d3c02d457bd8f8923ea10d625732c33",
+      "decodedBytes": 32311
+    },
+    {
+      "path": "raw/safe-v1.4.1-fallback-deployment.json.gz",
+      "encoding": "gzip",
+      "sha256": "15d8a267fa3650c4426d19059a458ac6b30ce039e96c2b8eee527562c535a7eb",
+      "decodedSha256": "942d697517e946bd219702dbfc262ded7f943eded896e2e5f7e61d2f1a79d6f5",
+      "decodedBytes": 17762
+    }
+  ],
+  "verificationReferences": [
+    {
+      "url": "https://github.com/safe-global/safe-deployments/blob/main/src/assets/v1.4.1/safe.json",
+      "gitBlobSha1": "b8df31b3ae5b9b6a856c1d40f1878b4a17e3b4f4"
+    },
+    {
+      "url": "https://github.com/safe-global/safe-deployments/blob/main/src/assets/v1.4.1/compatibility_fallback_handler.json",
+      "gitBlobSha1": "02d8451e1841edef008f70ec60aaab75e98a7afb"
+    }
+  ],
+  "notes": [
+    "No keys, credentials, private signer identities or private infrastructure details were collected for this package.",
+    "Real public RPC evidence is separate from synthetic website/browser fixtures.",
+    "The original contract-project schema is unavailable. The provisional Phase 1 schema is consumer-compatible with the existing website and does not authenticate the missing source archive."
+  ]
+}

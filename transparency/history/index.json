@@ -2,5 +2,12 @@
   "maintenanceT0": "2026-09-21T00:00:00Z",
   "publicationStatus": "NO_PUBLISHED_RECORDS",
   "records": [],
-  "schemaVersion": "1.0"
+  "schemaVersion": "1.0",
+  "inProgressRecords": [
+    {
+      "recordId": "mdc-treasury-30d-001",
+      "path": "records/2026/mdc-treasury-30d-001/",
+      "manifestSha256": "cf7c2e74e4495d5df4074b74192c71f8ada1e3cbc89a3e5698d04a83c9d799e8"
+    }
+  ]
 }
