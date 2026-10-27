@@ -55,6 +55,10 @@ async function call(endpoint, address, functionName, args=[]) {
  if(r.status!=='UNVERIFIED')try{r.decoded=decodeFunctionResult({abi,functionName,data:r.value});}catch{r.status='UNVERIFIED';r.error='ABI_DECODE_FAILED';}
  return r;
 }
+async function logRead(filter) {
+ for(const endpoint of endpoints){const result=await observe(endpoint,'eth_getLogs',[filter]);if(result.status!=='UNVERIFIED'&&Array.isArray(result.value))return {...result,endpoint};}
+ return {status:'UNVERIFIED',error:'NO_PROVIDER_SUPPLIED_VALID_LOG_ARRAY'};
+}
 async function collect() {
  if(!probes.length){summary.limitations.push('Neither endpoint supplied a verified Mainnet finalized header. No chain state was inferred.');return;}
  const minimum=probes.reduce((a,b)=>quantity(a.block.number)<quantity(b.block.number)?a:b),tag=minimum.block.number;
@@ -118,10 +122,10 @@ async function collect() {
    if(chunks.length>=60){complete=false;summary.limitations.push('Historical scan chunk budget reached.');break;}
    const to=from+9999n<end?from+9999n:end,range={fromBlock:'0x'+from.toString(16),toBlock:'0x'+to.toString(16)};
    const zero='0x'+'0'.repeat(64);
-   const chunk={...range,transfersFrom:await observe(historyEndpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),topics]}]),transfersTo:await observe(historyEndpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),null,topics]}]),mintEvents:await observe(historyEndpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),zero]}]),burnEvents:await observe(historyEndpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),null,zero]}]),approvals:await observe(historyEndpoint,'eth_getLogs',[{...range,address:CONFIG.token.address,topics:[toEventSelector('Approval(address,address,uint256)'),topics]}]),controls:await observe(historyEndpoint,'eth_getLogs',[{...range,address:monitored}])};
+   const chunk={...range,transfersFrom:await logRead({...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),topics]}),transfersTo:await logRead({...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),null,topics]}),mintEvents:await logRead({...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),zero]}),burnEvents:await logRead({...range,address:CONFIG.token.address,topics:[toEventSelector('Transfer(address,address,uint256)'),null,zero]}),approvals:await logRead({...range,address:CONFIG.token.address,topics:[toEventSelector('Approval(address,address,uint256)'),topics]}),controls:await logRead({...range,address:monitored})};
    chunks.push(chunk);if(Object.values(chunk).some(v=>v?.status==='UNVERIFIED'))complete=false;
   }
-  summary.history={status:complete?'BOUNDED_RANGE_OBSERVED_SINGLE_SOURCE':'INCOMPLETE',endpoint:historyEndpoint,coverageStartBlock:start.toString(),coverageEndBlock:end.toString(),chunks};
+  summary.history={status:complete?'BOUNDED_RANGE_OBSERVED_SINGLE_SOURCE':'INCOMPLETE',endpoint:'Per-query provider recorded in each observation; PublicNode preferred, dRPC fallback',coverageStartBlock:start.toString(),coverageEndBlock:end.toString(),chunks};
   const spenders=new Map();
   for(const chunk of chunks)for(const log of chunk.approvals.value??[]){if(log.topics?.length===3){const owner='0x'+log.topics[1].slice(-40),spender='0x'+log.topics[2].slice(-40);spenders.set(owner+spender,{owner,spender});}}
   summary.allowances=[];for(const pair of spenders.values())summary.allowances.push({...pair,value:await call(endpoint,CONFIG.token.address,'allowance',[pair.owner,pair.spender])});
