@@ -28,3 +28,17 @@ jobs:
           name: treasury-mainnet-read-evidence
           path: audit-output/
           retention-days: 30
+      - name: Export public read evidence through reproducible job logs
+        if: always()
+        run: |
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs';
+          import {gzipSync} from 'node:zlib';
+          import {createHash} from 'node:crypto';
+          for(const name of ['summary.json','rpc-transcript.jsonl']) {
+            if(!fs.existsSync('audit-output/'+name))continue;
+            const bytes=fs.readFileSync('audit-output/'+name),encoded=gzipSync(bytes).toString('base64'),chunks=encoded.match(/.{1,4096}/g);
+            console.log('AUDIT_FILE_SHA256 '+name+' '+createHash('sha256').update(bytes).digest('hex'));
+            chunks.forEach((chunk,i)=>console.log('AUDIT_FILE_CHUNK '+name+' '+i+' '+chunks.length+' '+chunk));
+          }
+          JS
